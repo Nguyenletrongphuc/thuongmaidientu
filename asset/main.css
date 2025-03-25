@@ -295,3 +295,50 @@ text-align: center;
     border-style: solid;
     border-color: transparent transparent white transparent;
 }
+/* ket thuc headr */
+/* phan body */
+.grid_row{
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -12px;
+    margin-right: -12px;
+}
+.grid_colum_2{
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 16.66;
+}
+.grid_colum_10{
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 83.44;
+}
+.content{
+    background-color: #f5f5f5;
+}
+.catelory{
+    background-color: #ffffff;
+    boder-radius: 2px;
+}
+.catelory_heading{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    margin-right: 4px;
+    margin-top: 4px;
+    padding-top: 4px;
+}
+.catelory_link{
+    text-decoration: none;
+    padding: 8px;
+    display: block;
+    position: relative;
+    transition: right linear 0.3s;
+    right: 0;
+}
+.catelory_link:hover{
+    color: #c87625;
+    right: -4px;
+}
+.catelory_list{
+    list-style: none;
+    padding: 16px;
+}
