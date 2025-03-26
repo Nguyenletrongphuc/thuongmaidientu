@@ -267,6 +267,7 @@ text-align: center;
     display: none;
     
 }
+
 .ti-shopping-cart{
     font-size: 1.5rem;
 
@@ -341,4 +342,22 @@ text-align: center;
 .catelory_list{
     list-style: none;
     padding: 16px;
+}
+/* phan trung tam cua body */
+.home_file_button{
+    display: inline-flex;
+    cursor: pointer;
+    font-size: 1.2rem;
+    border: none;
+    background-color: #fefefe;
+    border-radius: 2px;
+}
+.home_file_button:hover{
+    background-color: #ffa500;
+}
+.home_filter{
+    margin-top: 20px;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 12px 22px;
+    border-radius: 2px;
 }
