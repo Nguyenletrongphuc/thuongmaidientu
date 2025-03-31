@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="/asset/base.css">
+</head>
+<body>
+    <div id="add-product">
+        <form id="add-product-form" class="add-product-form">
+            <h2>Thêm Sản Phẩm</h2>
+        
+            <label for="product-name">Tên sản phẩm:</label>
+            <input type="text" id="product-name" required>
+        
+            <label for="product-quantity">Số lượng:</label>
+            <input type="number" id="product-quantity" required>
+        
+            <label for="product-price">Giá (VNĐ):</label>
+            <input type="number" id="product-price" required>
+        
+            <label for="product-sold">Đã bán:</label>
+            <input type="number" id="product-sold" required>
+        
+            <label for="product-description">Mô tả sản phẩm:</label>
+            <textarea id="product-description" rows="4" required></textarea>
+        
+            <label for="product-image-url">URL Ảnh:</label>
+            <input type="url" id="product-image-url" placeholder="Nhập URL ảnh" required>
+        
+            <!-- Hiển thị ảnh xem trước -->
+            <img id="preview-image" alt="Xem trước ảnh">
+        
+            <button type="submit">Thêm Sản Phẩm</button>
+        </form>
+    </div>
+    
+    <script>
+    document.getElementById("product-image-url").addEventListener("input", function () {
+    const preview = document.getElementById("preview-image");
+    preview.src = this.value;
+    preview.style.display = this.value ? "block" : "none";
+});
+
+document.getElementById("add-product-form").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const productData = {
+        name: document.getElementById("product-name").value,
+        quantity: Number(document.getElementById("product-quantity").value),
+        price: Number(document.getElementById("product-price").value),
+        sold: Number(document.getElementById("product-sold").value),
+        description: document.getElementById("product-description").value,
+        image: document.getElementById("product-image-url").value
+    };
+
+    try {
+        const response = await fetch("http://localhost:5000/api/products/add-product", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(productData)
+        });
+
+        const result = await response.json();
+        alert(result.message);
+    } catch (error) {
+        alert("Lỗi khi thêm sản phẩm");
+        console.error(error);
+    }
+});
+    </script>
+    
+    
+</body>
+</html>

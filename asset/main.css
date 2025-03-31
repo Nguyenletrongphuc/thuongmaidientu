@@ -393,7 +393,7 @@ text-align: center;
 .home_product_item_img{
     padding-top: 100%;
     background-repeat: no-repeat;
-    background-size: contai;
+    background-size: contain;
     background-position: center;
 }
 .home_product_item{
