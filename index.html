@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="asset/base.css">
     <link rel="stylesheet" type="text/css" href="asset/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Dancing Script:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/asset/img/themify-icons-font/themify-icons/themify-icons.css">
 </head>
 <body>
@@ -75,30 +76,11 @@
                             </a>
                         </li>
                         <li class="header__nav-item phancach">
-                            <a href="/dangki.html">Đăng kí</a>
+                            <a class="dangky" href="/dangki.html" style="text-decoration: none;">Đăng kí</a>
                         </li>
                         <li class="header__nav-item">
-                            <a href="/dangnhap.html">Đăng nhập</a>
+                            <a class="dangnhap" href="/dangnhap.html" style="text-decoration: none;">Đăng nhập</a>
                         </li>
-                        <!-- <li class="header__nav-item header__nav-user">
-                            <img src="/asset/img/user-img-default.webp" alt="" class="header__nav-item__user-img">
-                            <span class="header__nav-item__user-name">Nguyễn Văn A</span>
-                            <ul class="header__nav-user-menu">
-                                <li class="header__nav-user__item">
-                                    <a href="">Tài khoản</a>
-                                </li>
-                                <li class="header__nav-user__item">
-                                    <a href="">Địa chỉ</a>
-                                </li>
-                                <li class="header__nav-user__item">
-                                    <a href="">Đơn mua</a>
-                                </li>
-                                <li class="header__nav-user__item header__nav-user__ngancach">
-                                    <a href="">Đăng xuất</a>
-                                </li>
-                                
-                            </ul>
-                        </li> -->
                     </ul>
                 </nav>
             </div>
@@ -106,7 +88,8 @@
             <div class="grid__timkiem">
                 <div class="header__logo">
                     <a href="index.html" class="header__logo-link">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Shopee.svg/1200px-Shopee.svg.png" alt="" class="header__logo-img">
+                        <!-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Shopee.svg/1200px-Shopee.svg.png" alt="" class="header__logo-img"> -->
+                        <img src="/asset/img/logo.png" alt="" class="header__logo-img">
                     </a>
                 </div>
                 <div class="header__search">
@@ -404,6 +387,54 @@
     }
 });
 
-        </script>
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const username = localStorage.getItem("username"); // Lấy tên người dùng từ localStorage
+            const navList = document.querySelector(".header__nav-list:last-child"); // Lấy danh sách menu
+
+            if (username) {
+                // Nếu đã đăng nhập, hiển thị giao diện người dùng
+                navList.innerHTML = `
+                    <li class="header__nav-item header__nav-user">
+                        <img src="/asset/img/user-img-default.webp" alt="" class="header__nav-item__user-img">
+                        <span class="header__nav-item__user-name">${username}</span>
+                        <ul class="header__nav-user-menu">
+                            <li class="header__nav-user__item">
+                                <a href="">Tài khoản</a>
+                            </li>
+                            <li class="header__nav-user__item">
+                                <a href="">Địa chỉ</a>
+                            </li>
+                            <li class="header__nav-user__item">
+                                <a href="">Đơn mua</a>
+                            </li>
+                            <li class="header__nav-user__item header__nav-user__ngancach">
+                                <a href="#" id="logout-btn">Đăng xuất</a>
+                            </li>
+                        </ul>
+                    </li>
+                `;
+
+                // Xử lý đăng xuất
+                const logoutBtn = document.getElementById("logout-btn");
+                logoutBtn.addEventListener("click", function () {
+                    localStorage.removeItem("username"); // Xóa thông tin người dùng
+                    localStorage.removeItem("token");    // Xóa token (nếu có)
+                    location.reload(); // Tải lại trang
+                });
+            } else {
+                // Nếu chưa đăng nhập, hiển thị nút Đăng ký và Đăng nhập
+                navList.innerHTML = `
+                    <li class="header__nav-item phancach">
+                        <a href="/dangki.html">Đăng ký</a>
+                    </li>
+                    <li class="header__nav-item">
+                        <a href="/dangnhap.html">Đăng nhập</a>
+                    </li>
+                `;
+            }
+        });
+    </script>
 </body>
-</html> 
+</html>

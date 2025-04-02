@@ -6,7 +6,7 @@
 .header__navbar{
     display: flex;
     justify-content: space-between;
-    
+    padding: 0 20px;
 }
 .phancach::after{
 content: "";
@@ -33,7 +33,11 @@ transform: translateY(50%);
    font-size: 1.2rem;
    margin: 0 8px;
    position: relative;
-   text_decoration: none;
+   
+}
+.header__nav-item .dangky {
+    text-decoration: none; 
+    color: inherit; 
 }
 /* phan css cho user neu da dang nhap */
 .header__nav-user{
@@ -213,9 +217,10 @@ text-align: center;
 }
 .header__logo-img{
     width: 90px;
-    height: 60px;
+    height: 90px;
     object-fit: contain;
-}
+    border-radius: 4px;
+}                   
 .header__logo{
     width: 200px;
     text-align: center;

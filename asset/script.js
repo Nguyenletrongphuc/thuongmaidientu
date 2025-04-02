@@ -35,29 +35,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Xử lý đăng nhập
-    const loginForm = document.getElementById("login-form");
+    const loginForm = document.getElementById("loginForm");
     if (loginForm) {
         loginForm.addEventListener("submit", async (event) => {
-            event.preventDefault();
+            event.preventDefault(); // Ngăn form gửi dữ liệu theo cách mặc định
 
+            // Thu thập dữ liệu từ form
             const loginData = {
-                email: document.getElementById("login-email").value,
-                password: document.getElementById("login-password").value,
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
             };
 
-            const response = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(loginData),
-            });
+            try {
+                // Gửi yêu cầu đăng nhập đến API
+                const response = await fetch("http://localhost:5000/api/auth/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(loginData),
+                });
 
-            const result = await response.json();
-            if (response.ok) {
-                localStorage.setItem("token", result.token);
-                localStorage.setItem("username", result.name);
-                window.location.href = "index.html"; // Chuyển hướng về trang chủ
-            } else {
-                alert(result.message);
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Lưu thông tin người dùng vào localStorage
+                    localStorage.setItem("username", result.name);
+                    localStorage.setItem("token", result.token);
+
+                    // Hiển thị thông báo trên console
+                    console.log(`Chào mừng ${result.name}!`);
+
+                    // Chuyển hướng về trang chủ
+                    window.location.href = "index.html";
+                } else {
+                    alert(result.message); // Hiển thị lỗi từ server
+                }
+            } catch (error) {
+                console.error("Lỗi:", error);
+                alert("Đã xảy ra lỗi khi kết nối đến server!");
             }
         });
     }

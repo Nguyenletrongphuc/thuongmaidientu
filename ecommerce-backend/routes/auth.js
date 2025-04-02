@@ -48,16 +48,21 @@ router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
 
+        // Tìm user theo email
         const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ message: "Email hoặc mật khẩu không đúng!" });
 
+        // Kiểm tra mật khẩu
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: "Email hoặc mật khẩu không đúng!" });
 
+        // Tạo token
         const token = jwt.sign({ id: user._id, name: user.name }, JWT_SECRET, { expiresIn: "7d" });
 
+        // Trả về phản hồi
         res.status(200).json({ message: "Đăng nhập thành công!", token, name: user.name });
     } catch (error) {
+        console.error("Lỗi server:", error);
         res.status(500).json({ message: "Lỗi server!" });
     }
 });
