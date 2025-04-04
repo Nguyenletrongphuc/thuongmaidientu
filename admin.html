@@ -35,6 +35,23 @@
             <button type="submit">Thêm Sản Phẩm</button>
         </form>
     </div>
+    <div id="product-list" class="product-list">
+        <!-- Mỗi sản phẩm sẽ được hiển thị trong một thẻ -->
+        <div class="product-item">
+            <!-- <img src="https://via.placeholder.com/150" alt="Ảnh sản phẩm" class="product-item__image">
+            <div class="product-item__details">
+                <h3 class="product-item__name">Tên sản phẩm</h3>
+                <p class="product-item__description">Mô tả sản phẩm</p>
+                <p class="product-item__price">Giá: 100,000 VNĐ</p>
+                <p class="product-item__quantity">Số lượng: 10</p>
+                <p class="product-item__sold">Đã bán: 5</p>
+            </div>
+            <div class="product-item__actions">
+                <button class="edit-product-btn">Sửa</button>
+                <button class="delete-product-btn">Xóa</button>
+            </div> -->
+        </div>
+    </div>
     
     <script>
     document.getElementById("product-image-url").addEventListener("input", function () {
@@ -46,14 +63,16 @@
 document.getElementById("add-product-form").addEventListener("submit", async function (event) {
     event.preventDefault();
 
+    const rawPrice = document.getElementById("product-price").value.replace(/\./g, "");
+
     const productData = {
-        name: document.getElementById("product-name").value,
-        quantity: Number(document.getElementById("product-quantity").value),
-        price: Number(document.getElementById("product-price").value),
-        sold: Number(document.getElementById("product-sold").value),
-        description: document.getElementById("product-description").value,
-        image: document.getElementById("product-image-url").value
-    };
+    name: document.getElementById("product-name").value,
+    quantity: Number(document.getElementById("product-quantity").value),
+    price: Number(rawPrice), // đảm bảo đúng định dạng số
+    sold: Number(document.getElementById("product-sold").value),
+    description: document.getElementById("product-description").value,
+    image: document.getElementById("product-image-url").value
+};
 
     try {
         const response = await fetch("http://localhost:5000/api/products/add-product", {
@@ -69,8 +88,59 @@ document.getElementById("add-product-form").addEventListener("submit", async fun
         console.error(error);
     }
 });
+
+document.addEventListener("DOMContentLoaded", async function () {
+    const productList = document.getElementById("product-list");
+
+    // Lấy danh sách sản phẩm từ API
+    try {
+        const response = await fetch("http://localhost:5000/api/products/get-products");
+        const products = await response.json();
+
+        // Hiển thị danh sách sản phẩm
+        productList.innerHTML = products.map(product => `
+            <div class="product-item" data-id="${product._id}">
+                <img src="${product.image}" alt="${product.name}" class="product-item__image">
+                <div class="product-item__details">
+                    <h3 class="product-item__name">${product.name}</h3>
+                    <p class="product-item__description">${product.description}</p>
+                    <p class="product-item__price">Giá: ${product.price.toLocaleString()} VNĐ</p>
+                    <p class="product-item__quantity">Số lượng: ${product.quantity}</p>
+                    <p class="product-item__sold">Đã bán: ${product.sold}</p>
+                </div>
+                <div class="product-item__actions">
+                    <button class="edit-product-btn" onclick="editProduct('${product._id}')">Sửa</button>
+                    <button class="delete-product-btn" onclick="deleteProduct('${product._id}')">Xóa</button>
+                </div>
+            </div>
+        `).join("");
+    } catch (error) {
+        console.error("Lỗi khi lấy danh sách sản phẩm:", error);
+    }
+});
+
+// Hàm xử lý sửa sản phẩm
+function editProduct(productId) {
+    alert(`Sửa sản phẩm với ID: ${productId}`);
+    // Thêm logic sửa sản phẩm tại đây
+}
+
+// Hàm xử lý xóa sản phẩm
+async function deleteProduct(productId) {
+    if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
+        try {
+            const response = await fetch(`http://localhost:5000/api/products/delete-product/${productId}`, {
+                method: "DELETE",
+            });
+            const result = await response.json();
+            alert(result.message);
+            location.reload(); // Tải lại danh sách sản phẩm
+        } catch (error) {
+            console.error("Lỗi khi xóa sản phẩm:", error);
+            alert("Không thể xóa sản phẩm.");
+        }
+    }
+}
     </script>
-    
-    
 </body>
 </html>

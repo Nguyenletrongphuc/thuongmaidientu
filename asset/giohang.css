@@ -1,3 +1,167 @@
+.shopping-cart {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .cart-header {
+    margin-bottom: 20px;
+  }
+  
+  .cart-header h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .cart-summary {
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .cart-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+  }
+  
+  .select-all input {
+    margin-right: 10px;
+  }
+  
+  .delete-selected {
+    background: none;
+    border: none;
+    color: #f44336;
+    cursor: pointer;
+  }
+  
+  .cart-item {
+    display: flex;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+  }
+  
+  .item-select {
+    margin-right: 15px;
+  }
+  
+  .item-image {
+    width: 80px;
+    height: 80px;
+    margin-right: 15px;
+  }
+  
+  .item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .item-info {
+    flex: 1;
+  }
+  
+  .item-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .item-price {
+    color: #f44336;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .item-quantity {
+    display: flex;
+    align-items: center;
+  }
+  
+  .item-quantity button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    cursor: pointer;
+  }
+  
+  .item-quantity input {
+    width: 50px;
+    height: 30px;
+    text-align: center;
+    border: 1px solid #ddd;
+    margin: 0 5px;
+  }
+  
+  .item-total {
+    text-align: right;
+    margin-left: 20px;
+  }
+  
+  .total-price {
+    color: #f44336;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .remove-item {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+  }
+  
+  .cart-summary-section {
+    margin-top: 30px;
+    text-align: right;
+  }
+  
+  .summary-details {
+    margin-bottom: 20px;
+  }
+  
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    max-width: 300px;
+    margin-left: auto;
+  }
+  
+  .summary-row.total {
+    font-size: 18px;
+    font-weight: bold;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+  }
+  
+  .grand-total {
+    color: #f44336;
+  }
+  
+  .checkout-btn {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-bottom: 15px;
+  }
+  
+  .continue-shopping a {
+    color: #666;
+    text-decoration: none;
+  }
+/*phan header*/
 .header{
     height: 160px;
     background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
@@ -261,11 +425,10 @@ text-align: center;
     top: 0px;
     flex: 0.3;
     cursor: pointer;
-    text-decoration: none;
 }
-/* .header__cart:hover .header__cart_list{
+.header__cart:hover .header__cart_list{
     display: block;
-} */
+}
 .header__cart-link{
     text-decoration: none;
     color: black;
@@ -287,10 +450,6 @@ text-align: center;
 .header__cart .ti-shopping-cart:hover{
     color: #f6d365;
 }
-.header__cart-link{
-    text-decoration: none;
-    color: black;
-}
 .header__cart_list__none{
     padding: 0 28px;
     box-shadow: 0 2px 4px #ccc;
@@ -311,218 +470,4 @@ text-align: center;
     border-width: 20px;
     border-style: solid;
     border-color: transparent transparent white transparent;
-}
-/* ket thuc headr */
-/* phan body */
-.grid_row{
-    display: flex;
-    flex-wrap: nowrap;
-    /* margin-left: -5px;
-    margin-right: -5px; */
-}
-/*phan sidbar*/
-.grid_colum_2{
-    padding-left: 5px;
-    padding-right: 5px;
-    width: 16.6%;
-}
-/*phan noi dung tong*/
-.grid_colum_10{
-    padding-left: 5px;
-    padding-right: 5px;
-    width: 83.4%;
-    display: flex;
-    flex-wrap: wrap;
-}
-.grid_row_2{
-    display: flex;
-    flex-wrap: wrap;
-}
-/*phan noi dung rieng le trong noi dung tong*/
-.grid_colum_2_4{
-    margin-left: 4px;
-    margin-right: 4px;
-    width: 19%;
-    background-color: #ffffff;
-    position: relative;
-    margin-top: 20px;
-    
-}
-.grid_colum_2_4:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
-}
-.content{
-    background-color: #f5f5f5;
-}
-.catelory{
-    background-color: #ffffff;
-    boder-radius: 2px;
-}
-.catelory_heading{
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-    margin-right: 4px;
-    margin-top: 4px;
-    padding-top: 4px;
-}
-.catelory_link{
-    text-decoration: none;
-    padding: 8px;
-    display: block;
-    position: relative;
-    transition: right linear 0.3s;
-    right: 0;
-}
-.catelory_link:hover{
-    color: #c87625;
-    right: -4px;
-}
-.catelory_list{
-    list-style: none;
-    padding: 16px;
-
-}
-/* phan trung tam cua body */
-.home_file_button{
-    display: inline-flex;
-    cursor: pointer;
-    font-size: 1.2rem;
-    border: none;
-    background-color: #fefefe;
-    border-radius: 2px;
-}
-.home_file_button:hover{
-    background-color: #ffa500;
-}
-.home_filter{
-    margin-top: 20px;
-    background-color: rgba(0, 0, 0, 0.1);
-    padding: 12px 22px;
-    border-radius: 2px;
-}
-.home_product_item_img{
-    padding-top: 100%;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-}
-.home_product_item{
-    margin-top: 5px;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-    transition: transform linear 0.1s;
-    /* will-change: transform; */
-    text-decoration: none;
-    color: black;
-    
-}
-.home_product_item_name{
-    font-size: 1.1rem;
-    font-weight: 400;
-    line-height: 1.4rem;
-    height: 2.8rem;
-    overflow: hidden;
-    display: block;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    margin: 5px;
-}
-.home_product_item_price{
-    font-size: 1.1rem;
-    color: #c87625;
-    font-weight: 600;
-    padding-left: 5px;
-}
-.home_product_item_action{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 5px;
-}
-.star{
-    margin-left: auto;
-}
-.add-to-cart-btn{
-    width: 70%;
-    height: 34px;
-    color: red;
-    background-color: #ffffff;
-    border-color: red;
-    font-weight: 600;
-    margin-bottom: 2px;
-}
-.add-to-cart-btn:hover{
-    background-color: #ff0000;
-    color: #fff;
-    
-}
-.saled{
-    margin-left: 5px;
-}
-.home_product_item_favorite{
-    position: absolute;
-    top: 10px;
-    left: -4px;
-    color: #fff;
-    background-color: #f25b15;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    font-size: 1.1rem;
-}
-.home_product_item_favorite .ti-check{
-    font-size: 0.9rem;
-    padding: 4px 8px;   
-}
-.ti-check::before{
-    padding: 2px;
-}
-.home_product_item_favorite::before{
-    content: "";
-    position: absolute;
-    left: 0px;
-    bottom: -3px;
-    border-top: 3px solid #b63300;
-    border-left: 3px solid transparent;
-}
-.pagination{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    list-style: none;
-    font-size: 1.1rem;
-    flex:1;
-}
-.pagination_item_link{
-    text-decoration: none;
-    color: #939393;
-    display: block;
-    text-align: center;
-    height: 30px;
-    line-height: 30px;
-    min-width: 40px;
-}
-.pagination_item_active .pagination_item_link{
-    background-color: #e06b35;
-    border-radius: 2px;
-    color: #fff;
-} 
-.pagination_margin{
-    margin-top: 28px;
-    margin-bottom: 32px;
-}
-/*het phan than*/
-/*phan footer*/
-.footer{
-    border-top: solid #ff9500 4px;
-}
-.footer_list{
-    display: flex;
-}
-.footer_item{
-    margin: 20px;
-    padding-right: 30px;
-    list-style: none;
 }

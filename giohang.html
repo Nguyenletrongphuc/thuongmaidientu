@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/asset/giohang.css"> 
+    <link rel="stylesheet" href="/asset/script.js">
+    <link rel="stylesheet" href="/asset/img/themify-icons-font/themify-icons/themify-icons.css">
+    <script src="asset/dongbodangnhap.js"></script>
+    <title>Giỏ Hàng</title>
+</head>
+<body>
+    <header class="header">
+        <div class="grid">
+            <nav class="header__navbar ">
+                <ul class="header__nav-list">
+                    <li class="header__nav-item phancach">Vào cửa hàng trên ứng dụng</li>
+                    <li class="header__nav-item">Kết nối
+                        <a href="https://facebook.com" class="nav-item__icon">
+                            <i class="ti-facebook"></i>
+                        </a>
+                        <a href="https://instagram.com" class="nav-item__icon">
+                            <i class="ti-instagram"></i>
+                        </a>
+                    </li>
+                    <li class="header__nav-item hearder__thongbao__hien">
+                        <a href="" class="nav-item__icon">
+                            <i class="ti-bell"></i>
+                            Thông báo
+                        </a>
+                        <div class="hearder_thongbao">
+                            <header class="hearder_thongbao-head">
+                                <h3>Thông Báo Mới</h3>
+                            </header>
+                            <ul class="hearder_thongbao_list">
+                                <li class="hearder_thongbao_list_item">
+                                    <a href="" class="hearder_thongbao_link">
+                                        <img src="https://ischool.vn/wp-content/uploads/2022/12/nhung-cuon-sach-hay-cho-tre-10-tuoi-3.jpg" alt="">
+                                    <div class="hearder_thongbao_info">
+                                        <p class="hearder_thongbao_name">Sách trẻ em</p>
+                                        <p class="hearder_thongbao_mota">Phù hợp cho tuổi 5-10</p>
+                                    </div>
+                                    </a>
+                                </li>
+                            </ul>
+                            <footer class="hearder_thongbao-footer">
+                                <a href="" class="hearder_thongbao-footer-btn">Xem tất cả</a>
+                            </footer>
+                        </div>
+                    </li>
+                    <li class="header__nav-item">
+                        <a href="" class="nav-item__icon">
+                            <i class="ti-help-alt"></i>
+                            Trợ giúp
+                        </a>
+                    </li>
+                </ul>
+                <ul class="header__nav-list">
+                    <li class="header__nav-item phancach">
+                        <a class="dangky" href="/dangki.html">Đăng kí</a>
+                    </li>
+                    <li class="header__nav-item">
+                        <a class="dangnhap" href="/dangnhap.html" style="text-decoration: none;">Đăng nhập</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!-- phan tim kiem -->
+        <div class="grid__timkiem">
+            <div class="header__logo">
+                <a href="index.html" class="header__logo-link">
+                    <!-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Shopee.svg/1200px-Shopee.svg.png" alt="" class="header__logo-img"> -->
+                    <img src="/asset/img/logo-removebg-preview.png" alt="" class="header__logo-img">
+                </a>
+            </div>
+            <div class="header__search">
+                <input type="text" class="header__search-input" placeholder="Tìm kiếm sản phẩm">
+                <button class="header__search-btn">
+                    <i class="ti-search"></i>
+                </button>
+            </div>
+            <div class="header__cart">
+                <i class="ti-shopping-cart">
+                </i>
+                <div class="header__cart_list header__cart_list__none ">
+                    <img src="https://lucaga.com/assets/images/no-cart.png" alt="no__cart" class="no__cart__img">
+                </div>
+                
+            </div>
+            
+    </header>
+    <div class="shopping-cart">
+        <div class="cart-header">
+          <h1>GIỎ HÀNG CỦA BẠN</h1>
+          <div class="cart-summary">1 sản phẩm</div>
+        </div>
+      
+        <div class="cart-actions">
+          <label class="select-all">
+            <input type="checkbox" checked>
+            <span>Chọn tất cả (1 sản phẩm)</span>
+          </label>
+          <button class="delete-selected">Xóa</button>
+        </div>
+      
+        <div class="cart-items">
+          <div class="cart-item">
+            <div class="item-select">
+              <input type="checkbox" checked>
+            </div>
+            
+            <div class="item-image">
+              <img src="https://cdn1.fahasa.com/media/catalog/product/9/7/9786043561272_1_1.jpg" alt="Veil - Tập 6 - Sắc Đồ Tung Bay">
+            </div>
+            
+            <div class="item-info">
+              <h3 class="item-title">Veil - Tập 6 - Sắc Đồ Tung Bay - Tặng Kèm Postcard</h3>
+              <div class="item-price">59.500 ₫</div>
+              
+              <div class="item-quantity">
+                <button class="decrease">-</button>
+                <input type="number" value="1" min="1">
+                <button class="increase">+</button>
+              </div>
+            </div>
+            
+            <div class="item-total">
+              <div class="total-price">59.500 ₫</div>
+              <button class="remove-item">Xóa</button>
+            </div>
+          </div>
+        </div>
+      
+        <div class="cart-summary-section">
+          <div class="summary-details">
+            <div class="summary-row">
+              <span>Tạm tính:</span>
+              <span>59.500 ₫</span>
+            </div>
+            <div class="summary-row">
+              <span>Giảm giá:</span>
+              <span>0 ₫</span>
+            </div>
+            <div class="summary-row total">
+              <span>Tổng tiền:</span>
+              <span class="grand-total">59.500 ₫</span>
+            </div>
+          </div>
+          
+          <button class="checkout-btn">TIẾN HÀNH ĐẶT HÀNG</button>
+          
+          <div class="continue-shopping">
+            <a href="#">← Tiếp tục mua hàng</a>
+          </div>
+        </div>
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const cartItemsContainer = document.querySelector(".cart-items");
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = "<p>Giỏ hàng trống.</p>";
+                return;
+            }
+
+            // Hiển thị danh sách sản phẩm trong giỏ hàng
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <div class="cart-item" data-id="${item._id}">
+                    <div class="item-select">
+                        <input type="checkbox" checked>
+                    </div>
+                    <div class="item-image">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div class="item-info">
+                        <h3 class="item-title">${item.name}</h3>
+                        <div class="item-price">${item.price.toLocaleString()} ₫</div>
+                        <div class="item-quantity">
+                            <button class="decrease">-</button>
+                            <input type="number" value="${item.quantity}" min="1">
+                            <button class="increase">+</button>
+                        </div>
+                    </div>
+                    <div class="item-total">
+                        <div class="total-price">${(item.price * item.quantity).toLocaleString()} ₫</div>
+                        <button class="remove-item">Xóa</button>
+                    </div>
+                </div>
+            `).join("");
+
+            // Sử dụng Event Delegation để xử lý sự kiện "Xóa"
+            cartItemsContainer.addEventListener("click", function (event) {
+                if (event.target.classList.contains("remove-item")) {
+                    const itemElement = event.target.closest(".cart-item");
+                    const itemId = itemElement.dataset.id;
+
+                    // Lấy lại cart từ localStorage và lọc bỏ item có id tương ứng
+                    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                    cart = cart.filter(item => item._id !== itemId);
+
+                    // Cập nhật localStorage
+                    localStorage.setItem("cart", JSON.stringify(cart));
+
+                    // Xóa khỏi DOM
+                    itemElement.remove();
+
+                    // Nếu hết sản phẩm thì hiển thị thông báo
+                    if (cart.length === 0) {
+                        cartItemsContainer.innerHTML = "<p>Giỏ hàng trống.</p>";
+                    }
+                }
+            });
+        });
+        </script>
+        
+</body>
+</html>
