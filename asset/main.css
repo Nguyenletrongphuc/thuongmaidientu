@@ -231,7 +231,7 @@ text-align: center;
     width: 600px;
     text-align: center;
     display: flex;
-    
+    border-radius:4px;
     flex: 1;
 }
 .header__search-input{
@@ -239,8 +239,7 @@ text-align: center;
     height: 100%;
     border: none;
     font-size: 1.2rem;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
+    border-radius: 4px;
 }
 .header__search-btn{
     background-color: #ffffff;

@@ -79,28 +79,12 @@
                     <i class="ti-search"></i>
                 </button>
             </div>
-            <div class="header__cart">
-                <i class="ti-shopping-cart">
-                </i>
-                <div class="header__cart_list header__cart_list__none ">
-                    <img src="https://lucaga.com/assets/images/no-cart.png" alt="no__cart" class="no__cart__img">
-                </div>
-                
-            </div>
             
     </header>
     <div class="shopping-cart">
         <div class="cart-header">
           <h1>GIỎ HÀNG CỦA BẠN</h1>
           <div class="cart-summary">1 sản phẩm</div>
-        </div>
-      
-        <div class="cart-actions">
-          <label class="select-all">
-            <input type="checkbox" checked>
-            <span>Chọn tất cả (1 sản phẩm)</span>
-          </label>
-          <button class="delete-selected">Xóa</button>
         </div>
       
         <div class="cart-items">
@@ -150,7 +134,7 @@
           <button class="checkout-btn">TIẾN HÀNH ĐẶT HÀNG</button>
           
           <div class="continue-shopping">
-            <a href="#">← Tiếp tục mua hàng</a>
+            <a href="/index.html">← Tiếp tục mua hàng</a>
           </div>
         </div>
       </div>
@@ -160,7 +144,7 @@
             const cartItemsContainer = document.querySelector(".cart-items");
 
             if (cart.length === 0) {
-                cartItemsContainer.innerHTML = "<p>Giỏ hàng trống.</p>";
+                cartItemsContainer.innerHTML = "<img src='https://tuongvip.vn/public/assets/frontend/img/cart_empty_icon.png' alt='Giỏ hàng trống' class='empty-cart'>";
                 return;
             }
 
@@ -213,6 +197,50 @@
             });
         });
         </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const cartItemsContainer = document.querySelector(".cart-items");
+                const grandTotalElement = document.querySelector(".grand-total");
+            
+                function parseCurrency(str) {
+                    return Number(str.replace(/\./g, "").replace("₫", "").trim());
+                }
+            
+                function formatCurrency(num) {
+                    return num.toLocaleString("vi-VN") + " ₫";
+                }
+            
+                function calculateTotal() {
+                    let total = 0;
+                    const items = cartItemsContainer.querySelectorAll(".cart-item");
+            
+                    items.forEach(item => {
+                        const isChecked = item.querySelector("input[type='checkbox']").checked;
+            
+                        if (isChecked) {
+                            const quantity = Number(item.querySelector("input[type='number']").value);
+                            const priceStr = item.querySelector(".item-price").textContent;
+                            const price = parseCurrency(priceStr);
+                            total += price * quantity;
+                        }
+                    });
+            
+                    document.querySelector(".summary-row.total .grand-total").textContent = formatCurrency(total);
+                    document.querySelector(".summary-row:nth-child(1) span:last-child").textContent = formatCurrency(total);
+                }
+            
+                // Sự kiện khi checkbox, số lượng thay đổi
+                cartItemsContainer.addEventListener("change", (e) => {
+                    if (e.target.matches("input[type='checkbox'], input[type='number']")) {
+                        calculateTotal();
+                    }
+                });
+            
+                // Gọi lần đầu khi trang load
+                calculateTotal();
+            });
+            </script>
+            
         
 </body>
 </html>

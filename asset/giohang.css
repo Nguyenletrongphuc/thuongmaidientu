@@ -390,21 +390,19 @@ text-align: center;
     text-align: center;
 }
 .header__search{
-    background-color: #f6f6f6;
     height: 40px;
     width: 600px;
     text-align: center;
     display: flex;
-    
+    border-radius:4px;
     flex: 1;
 }
 .header__search-input{
-    width: 100%;
+    width: 71%;
     height: 100%;
     border: none;
     font-size: 1.2rem;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
+    border-radius:4px;
 }
 .header__search-btn{
     background-color: #ffffff;
@@ -419,11 +417,10 @@ text-align: center;
 }
 
 .header__cart{
-    margin-right: 40px;
     position: relative;
     text-align: center;
     top: 0px;
-    flex: 0.3;
+    flex: 0.2;
     cursor: pointer;
 }
 .header__cart:hover .header__cart_list{
