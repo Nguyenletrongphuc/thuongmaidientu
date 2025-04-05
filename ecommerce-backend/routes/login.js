@@ -1,8 +1,8 @@
-document.querySelector(".login-form").addEventListener("submit", async function (event) {
+document.querySelector(".sign-in-container form").addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
+    const email = document.querySelector(".sign-in-container input[placeholder='Email']").value;
+    const password = document.querySelector(".sign-in-container input[placeholder='Password']").value;
 
     const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",

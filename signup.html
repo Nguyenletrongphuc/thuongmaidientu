@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập</title>
+    <link rel="stylesheet" href="/asset/img/themify-icons-font/themify-icons/themify-icons.css">
+	<link rel="stylesheet" href="/asset/signup.css">
+	
+</head>
+<body>
+<div class="container" id="container">
+	<div class="form-container sign-up-container">
+		<form id="register-form" action="javascript:void(0);">
+			<h1>Tạo tài khoản</h1>
+			<div class="social-container">
+				<a href="#" class="social"><i class="fab ti-facebook"></i></a>
+				<a href="#" class="social"><i class="fab ti-instagram"></i></a>
+				<a href="#" class="social"><i class="fab ti-twitter-alt"></i></a>
+			</div>
+			<span>hoặc dùng gmail để đăng ký</span>
+			<input type="text" id="register-name" placeholder="Name" />
+			<input type="email" id="register-email" placeholder="Email" />
+			<input type="password" id="register-password" placeholder="Password" />
+			<input type="number" id="register-phone" placeholder="Phone" />
+			<input type="text" id="register-address" placeholder="Address" />
+			<button type="submit">Sign Up</button>
+		</form>
+	</div>	
+	<div class="form-container sign-in-container">
+		<form id="login-form" action="javascript:void(0);">
+			<h1>Đăng nhập</h1>
+			<div class="social-container">
+				<a href="#" class="social"><i class="fab ti-facebook"></i></a>
+				<a href="#" class="social"><i class="fab ti-instagram"></i></a>
+				<a href="#" class="social"><i class="fab ti-twitter-alt"></i></a>
+			</div>
+			<span>hoặc dùng tài khoản gmail</span>
+			<input type="email" id="login-email" placeholder="Email" />
+			<input type="password" id="login-password" placeholder="Password" />
+			<a href="#">Quên mật khẩu?</a>
+			<button type="submit">Đăng nhập</button>
+		</form>
+	</div>
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-left">
+				<h1>Chào mừng trở lại!</h1>
+				<p>To keep connected with us please login with your personal info</p>
+				<button class="ghost" id="signIn">Sign In</button>
+			</div>
+			<div class="overlay-panel overlay-right">
+				<h1>Hello, Bạn của tôi!</h1>
+				<p>Nhập thông tin cá nhân của bạn và bắt đầu hành trình cùng chúng tôi</p>
+				<button class="ghost" id="signUp">Sign Up</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<footer>
+	<p>
+		Created with <i class="fa fa-heart"></i> by
+		<a target="_blank" href="https://florin-pop.com">Florin Pop</a>
+		- Read how I created this and how you can join the challenge
+		<a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
+	</p>
+</footer>
+
+<script>
+	const signUpButton = document.getElementById('signUp');
+	const signInButton = document.getElementById('signIn');
+	const container = document.getElementById('container');
+
+	signUpButton.addEventListener('click', () => {
+	container.classList.add("right-panel-active");
+});
+
+	signInButton.addEventListener('click', () => {
+	container.classList.remove("right-panel-active");
+});
+</script>
+<script src="/asset/script.js"></script>
+<script src="/asset/dongbodangnhap.js"></script>
+</body>
+</html>

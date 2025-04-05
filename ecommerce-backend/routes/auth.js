@@ -8,6 +8,7 @@ const router = express.Router();
 
 // Đăng ký
 router.post("/register", async (req, res) => {
+    console.log("Dữ liệu nhận được từ client:", req.body); // Log dữ liệu nhận được
     try {
         const { name, email, password, phone, address } = req.body;
 
@@ -45,6 +46,7 @@ router.post("/register", async (req, res) => {
 
 // Đăng nhập
 router.post("/login", async (req, res) => {
+    console.log("Dữ liệu nhận được từ client:", req.body); // Log dữ liệu nhận được
     try {
         const { email, password } = req.body;
 
@@ -60,7 +62,7 @@ router.post("/login", async (req, res) => {
         const token = jwt.sign({ id: user._id, name: user.name }, JWT_SECRET, { expiresIn: "7d" });
 
         // Trả về phản hồi
-        res.status(200).json({ message: "Đăng nhập thành công!", token, name: user.name });
+        res.status(200).json({ message: "Đăng nhập thành công!", token, name: user.name,role: user.role  });
     } catch (error) {
         console.error("Lỗi server:", error);
         res.status(500).json({ message: "Lỗi server!" });

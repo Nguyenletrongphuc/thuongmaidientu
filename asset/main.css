@@ -6,6 +6,7 @@
 .header__navbar{
     display: flex;
     justify-content: space-between;
+    height: 65px;
     padding: 0 20px;
 }
 .phancach::after{
@@ -39,6 +40,11 @@ transform: translateY(50%);
     text-decoration: none; 
     color: inherit; 
 }
+.header__nav-item .go-admin {
+    text-decoration: none; 
+    color: inherit; 
+    display: none;
+}
 /* phan css cho user neu da dang nhap */
 .header__nav-user{
     display: flex;
@@ -53,6 +59,67 @@ transform: translateY(50%);
     font-size: 1.2rem;
     margin-left: 8px;
     font-weight: 400;
+}
+.header__nav_user_btn{
+    width: 90%;
+    margin: 40px auto;
+    text-align: center;
+}
+.custom-btn {
+    width: 130px;
+    height: 40px;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+     box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+     7px 7px 20px 0px rgba(0,0,0,.1),
+     4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+  }
+.btn-9{
+    background-color: blue;
+    border: none;
+    border-radius: 4px;
+    width: 112%;
+    height: 33px;
+    top: -30px;
+    color: #fff;
+    font-size: 0.9rem;
+    box-shadow: #939393 0 2px 4px;
+}
+.btn-9 a{
+    color: #fff;
+    text-decoration: none;
+    z-index: 2;
+    position: relative;
+    
+}
+.btn-9:after{
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    background-color: #663dff;
+    border-radius: 5px;
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,0.2),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+    transition: all 0.3s ease;
+}
+.btn-9:hover:after{
+    width: 100%;
+    left: 0;
+    transition: all 0.3s ease;
 }
 .header__nav-user-menu{
     position: absolute;
@@ -169,7 +236,7 @@ transform: translateY(50%);
 .hearder_thongbao_list{
     padding-left: 0;
     list-style: none;
-    z-index: 2;
+    /* z-index: 1; */
 
 }
 .hearder_thongbao_list_item:hover{
@@ -252,7 +319,6 @@ text-align: center;
     border-bottom-right-radius: 3px;   
     
 }
-
 .header__cart{
     margin-right: 40px;
     position: relative;

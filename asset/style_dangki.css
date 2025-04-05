@@ -39,5 +39,12 @@ button:hover {
 }
 
 p {
-    color: red;
+    color: rgb(255, 255, 255);
+}
+.chuyenhuong{
+    background-color: #FF416C;
+    width: 340px;
+    padding: 20px;
+    height: 449px;
+    border-radius: 6px;
 }
