@@ -111,8 +111,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         localStorage.removeItem("token");
                         localStorage.removeItem("username");
                         localStorage.removeItem("cart");
+                        localStorage.removeItem("role"); // Xóa role (nếu có)
                         adminLink.style.display = "none";
                         window.location.href = "index.html";
+                        location.reload();
                     });
                 }
             }, 0); // Đảm bảo DOM đã cập nhật

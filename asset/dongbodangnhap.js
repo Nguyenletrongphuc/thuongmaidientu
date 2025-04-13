@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.removeItem("username"); // Xóa thông tin người dùng
             localStorage.removeItem("cart"); // Xóa giỏ hàng (nếu có)
             localStorage.removeItem("token");    // Xóa token (nếu có)
+            localStorage.removeItem("role"); // Xóa role (nếu có)
             adminLink.style.display = "none";
             window.location.href = "index.html"; // Chuyển hướng về trang chủ
             location.reload(); // Tải lại trang
