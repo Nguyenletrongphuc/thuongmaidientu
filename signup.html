@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Nhập</title>
-    <link rel="stylesheet" href="/asset/img/themify-icons-font/themify-icons/themify-icons.css">
-	<link rel="stylesheet" href="/asset/signup.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Đăng Nhập</title>
 	
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+	
+	<!-- Themify Icons -->
+	<link rel="stylesheet" href="asset/img/themify-icons-font/themify-icons/themify-icons.css">
+	
+	<!-- Custom CSS -->
+	<link rel="stylesheet" href="asset/signup.css">
 </head>
 <body>
+
 <div class="container" id="container">
+	<!-- Đăng ký -->
 	<div class="form-container sign-up-container">
 		<form id="register-form" action="javascript:void(0);">
 			<h1>Tạo tài khoản</h1>
 			<div class="social-container">
-				<a href="#" class="social"><i class="fab ti-facebook"></i></a>
-				<a href="#" class="social"><i class="fab ti-instagram"></i></a>
-				<a href="#" class="social"><i class="fab ti-twitter-alt"></i></a>
+				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+				<a href="#" class="social"><i class="fab fa-instagram"></i></a>
+				<a href="#" class="social"><i class="fab fa-twitter"></i></a>
+				<a href="http://localhost:5000/api/auth/google" class="social"><i class="fab fa-google"></i></a>
 			</div>
-			<span>hoặc dùng gmail để đăng ký</span>
+			<span>hoặc dùng Gmail để đăng ký</span>
 			<input type="text" id="register-name" placeholder="Name" />
 			<input type="email" id="register-email" placeholder="Email" />
 			<input type="password" id="register-password" placeholder="Password" />
@@ -26,32 +35,37 @@
 			<input type="text" id="register-address" placeholder="Address" />
 			<button type="submit">Sign Up</button>
 		</form>
-	</div>	
+	</div>
+
+	<!-- Đăng nhập -->
 	<div class="form-container sign-in-container">
 		<form id="login-form" action="javascript:void(0);">
 			<h1>Đăng nhập</h1>
 			<div class="social-container">
-				<a href="#" class="social"><i class="fab ti-facebook"></i></a>
-				<a href="#" class="social"><i class="fab ti-instagram"></i></a>
-				<a href="#" class="social"><i class="fab ti-twitter-alt"></i></a>
+				<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+				<a href="#" class="social"><i class="fab fa-instagram"></i></a>
+				<a href="#" class="social"><i class="fab fa-twitter"></i></a>
+				<a href="http://localhost:5000/api/auth/google" class="social"><i class="fab fa-google"></i></a>
 			</div>
-			<span>hoặc dùng tài khoản gmail</span>
+			<span>hoặc dùng tài khoản Gmail</span>
 			<input type="email" id="login-email" placeholder="Email" />
 			<input type="password" id="login-password" placeholder="Password" />
 			<a href="#">Quên mật khẩu?</a>
 			<button type="submit">Đăng nhập</button>
 		</form>
 	</div>
+
+	<!-- Overlay -->
 	<div class="overlay-container">
 		<div class="overlay">
 			<div class="overlay-panel overlay-left">
 				<h1>Chào mừng trở lại!</h1>
-				<p>To keep connected with us please login with your personal info</p>
+				<p>Đăng nhập để tiếp tục hành trình với chúng tôi</p>
 				<button class="ghost" id="signIn">Sign In</button>
 			</div>
 			<div class="overlay-panel overlay-right">
-				<h1>Hello, Bạn của tôi!</h1>
-				<p>Nhập thông tin cá nhân của bạn và bắt đầu hành trình cùng chúng tôi</p>
+				<h1>Hello, bạn của tôi!</h1>
+				<p>Nhập thông tin cá nhân để bắt đầu hành trình mới</p>
 				<button class="ghost" id="signUp">Sign Up</button>
 			</div>
 		</div>
@@ -62,25 +76,46 @@
 	<p>
 		Created with <i class="fa fa-heart"></i> by
 		<a target="_blank" href="https://florin-pop.com">Florin Pop</a>
-		- Read how I created this and how you can join the challenge
-		<a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
+		 <b></b>
 	</p>
 </footer>
 
+<!-- Toggle JS -->
 <script>
 	const signUpButton = document.getElementById('signUp');
 	const signInButton = document.getElementById('signIn');
 	const container = document.getElementById('container');
 
 	signUpButton.addEventListener('click', () => {
-	container.classList.add("right-panel-active");
-});
+		container.classList.add("right-panel-active");
+	});
 
 	signInButton.addEventListener('click', () => {
-	container.classList.remove("right-panel-active");
-});
+		container.classList.remove("right-panel-active");
+	});
 </script>
-<script src="/asset/script.js"></script>
-<script src="/asset/dongbodangnhap.js"></script>
+
+<!-- Google OAuth2: Nhận token từ URL -->
+<script>
+	window.addEventListener("DOMContentLoaded", () => {
+		const urlParams = new URLSearchParams(window.location.search);
+		const token = urlParams.get("token");
+		const name = urlParams.get("name");
+		const role = urlParams.get("role");
+
+		if (token) {
+			localStorage.setItem("token", token);
+			localStorage.setItem("userName", name);
+			localStorage.setItem("role", role);
+			// Chuyển hướng sang trang chính
+			window.location.href = "index.html";
+		}
+	});
+</script>
+
+<!-- Custom scripts -->
+<script src="asset/script.js"></script>
+<script src="asset/dongbodangnhap.js"></script>
+
 </body>
 </html>

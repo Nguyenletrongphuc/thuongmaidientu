@@ -1,38 +1,40 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
 const User = require("../models/User");
 require("dotenv").config();
+require("./passport"); // Đã cập nhật từ config/passport sang routes/passport
+
 const JWT_SECRET = process.env.JWT_SECRET;
+const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5500";
+
 const router = express.Router();
 
-// Đăng ký
+// ======================== Đăng ký ========================
 router.post("/register", async (req, res) => {
-    console.log("Dữ liệu nhận được từ client:", req.body); // Log dữ liệu nhận được
+    console.log("Dữ liệu nhận được từ client:", req.body);
     try {
         const { name, email, password, phone, address } = req.body;
 
-        // Kiểm tra dữ liệu đầu vào
         if (!name || !email || !password || !phone || !address) {
             return res.status(400).json({ message: "Vui lòng điền đầy đủ thông tin!" });
         }
 
-        // Kiểm tra xem email đã tồn tại chưa
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: "Email đã tồn tại!" });
         }
 
-        // Mã hóa mật khẩu
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Tạo user mới
         const newUser = new User({
             name,
             email,
             password: hashedPassword,
             phone,
             address,
+            provider: "local"
         });
 
         await newUser.save();
@@ -43,33 +45,39 @@ router.post("/register", async (req, res) => {
     }
 });
 
-
-// Đăng nhập
+// ======================== Đăng nhập ========================
 router.post("/login", async (req, res) => {
-    console.log("Dữ liệu nhận được từ client:", req.body); // Log dữ liệu nhận được
+    console.log("Dữ liệu nhận được từ client:", req.body);
     try {
         const { email, password } = req.body;
 
-        // Tìm user theo email
         const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ message: "Email hoặc mật khẩu không đúng!" });
 
-        // Kiểm tra mật khẩu
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: "Email hoặc mật khẩu không đúng!" });
 
-        // Tạo token
-        const token = jwt.sign({ id: user._id, name: user.name }, JWT_SECRET, { expiresIn: "7d" });
+        const token = jwt.sign({ id: user._id, name: user.name, role: user.role }, JWT_SECRET, { expiresIn: "7d" });
 
-        // Trả về phản hồi
-        res.status(200).json({ message: "Đăng nhập thành công!", token, name: user.name,role: user.role  });
+        res.status(200).json({ message: "Đăng nhập thành công!", token, name: user.name, role: user.role });
     } catch (error) {
         console.error("Lỗi server:", error);
         res.status(500).json({ message: "Lỗi server!" });
     }
 });
 
-// Xác thực middleware
+// ======================== Google OAuth ========================
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+
+router.get("/google/callback", passport.authenticate("google", {
+    session: false,
+    failureRedirect: "/login"
+}), (req, res) => {
+    const token = jwt.sign({ id: req.user._id, name: req.user.name, role: req.user.role }, JWT_SECRET, { expiresIn: "7d" });
+    res.redirect(`${CLIENT_URL}/signup.html?token=${token}&name=${req.user.name}&role=${req.user.role}`);
+});
+
+// ======================== Middleware xác thực ========================
 const authenticateToken = (req, res, next) => {
     const token = req.header("Authorization");
     if (!token) return res.status(401).json({ message: "Không có token, truy cập bị từ chối!" });
