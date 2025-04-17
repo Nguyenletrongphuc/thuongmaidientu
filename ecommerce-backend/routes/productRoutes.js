@@ -41,3 +41,21 @@ router.delete("/delete-product/:id", async (req, res) => {
         res.status(500).json({ message: "Lỗi server!" });
     }
 });
+// API tìm kiếm sản phẩm
+router.get("/search", async (req, res) => {
+    const query = req.query.query || "";
+    try {
+      const regex = new RegExp(query, "i"); // không phân biệt hoa thường
+      const products = await Product.find({
+        $or: [
+          { name: regex },
+          { description: regex }
+        ]
+      });
+      res.json(products);
+    } catch (error) {
+      console.error("Lỗi khi tìm kiếm sản phẩm:", error);
+      res.status(500).json({ message: "Lỗi server!" });
+    }
+  });
+  

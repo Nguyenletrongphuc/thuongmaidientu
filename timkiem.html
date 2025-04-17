@@ -116,12 +116,12 @@
                         </nav>
                     </div>
                     <div class="grid_colum_10">
-                        <div class="home_filter">
+                        <!-- <div class="home_filter">
                             <Span class="home_filter_lable">Sắp xếp theo</Span>
                             <button class="home_file_button">Phổ biến</button>
                             <button class="home_file_button">Mới nhất </button>
                             <button class="home_file_button">Bán chạy</button>
-                        </div>
+                        </div> -->
                         <div class="home_product">
                             <div class="grid_row_2" id="product-list"></div>
                                 
@@ -173,49 +173,70 @@
            </ul>
         </div>
     </div>
-    <script>document.addEventListener("DOMContentLoaded", async function () {
-        try {
-            const response = await fetch("http://localhost:5000/api/products/get-products");
-            const products = await response.json();
     
-            const productContainer = document.querySelector(".grid_row_2");
-            productContainer.innerHTML = "";
-    
-            products.forEach(product => {
-                const productHTML = `
-                    <div class="grid_colum_2_4">
-                        <div class="home_product_item">
-                            <div class="home_product_item_img" style="background-image: url(${product.image});"></div>
-                            <h4 class="home_product_item_name">${product.name}</h4>
-                            <p class="home_product_item_price">Giá: ${product.price.toLocaleString("vi-VN")} vnđ</p>
-                            <div class="home_product_item_action">
-                                <button class="add-to-cart-btn" onclick='addToCart(${JSON.stringify(product)})'>
-                                    Thêm vào giỏ
-                                </button>
-                                <span class="like">
-                                    <i class="saled">${product.sold} Đã bán</i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                productContainer.innerHTML += productHTML;
-            });
-    
-        } catch (error) {
-            console.error("Lỗi khi lấy sản phẩm:", error);
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+    const params = new URLSearchParams(window.location.search);
+    const keyword = params.get("query");
+
+    const productContainer = document.getElementById("product-list");
+    const searchForm = document.getElementById("searchForm");
+    const searchInput = document.getElementById("searchInput");
+
+    // Hiển thị kết quả tìm kiếm ban đầu (nếu có từ khóa trong URL)
+    if (keyword) {
+        searchInput.value = keyword; // Hiển thị từ khóa trong ô tìm kiếm
+        await fetchAndRenderProducts(keyword);
+    }
+
+    // Xử lý sự kiện tìm kiếm
+    searchForm.addEventListener("submit", async function (e) {
+        e.preventDefault(); // Ngăn form reload trang
+        const newKeyword = searchInput.value.trim();
+        if (newKeyword) {
+            // Cập nhật URL mà không reload trang
+            window.history.pushState({}, "", `?query=${encodeURIComponent(newKeyword)}`);
+            await fetchAndRenderProducts(newKeyword);
         }
-    });</script>
-     <script>
-        window.addEventListener("DOMContentLoaded", function () {
-          document.getElementById("searchForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const query = document.getElementById("searchInput").value.trim();
-            if (query) {
-              window.location.href = `timkiem.html?query=${encodeURIComponent(query)}`;
+    });
+
+    // Hàm fetch và render sản phẩm
+    async function fetchAndRenderProducts(searchKeyword) {
+        try {
+            const response = await fetch(`http://localhost:5000/api/products/search?query=${encodeURIComponent(searchKeyword)}`);
+            const products = await response.json();
+
+            productContainer.innerHTML = "";
+
+            if (products.length === 0) {
+                productContainer.innerHTML = "<p>Không tìm thấy sản phẩm nào.</p>";
+            } else {
+                products.forEach(product => {
+                    const productHTML = `
+                        <div style="width: 100%; background-color: #fff;" >
+                                    <div style="width: 200px;padding-top:5px; class="home_product_item">
+                                        <div class="home_product_item_img" style="background-image: url(${product.image});"></div>
+                                        <h4 class="home_product_item_name">${product.name}</h4>
+                                        <p class="home_product_item_price">Giá: ${product.price.toLocaleString("vi-VN")} vnđ</p>
+                                        <div class="home_product_item_action">
+                                            <button class="add-to-cart-btn" onclick='addToCart(${JSON.stringify(product)})'>
+                                                Thêm vào giỏ
+                                            </button>
+                                            <span class="like">
+                                                <i class="saled">${product.sold} Đã bán</i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                    `;
+                    productContainer.innerHTML += productHTML;
+                });
             }
-          });
-        });
-      </script>
+        } catch (error) {
+            console.error("Lỗi khi tìm kiếm sản phẩm:", error);
+        }
+    }
+});
+    </script>
 </body>
 </html>

@@ -45,6 +45,7 @@ const { router: authRoutes } = require("./routes/auth");
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
 app.use(express.static(path.join(__dirname, "..")));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Chạy server
 const PORT = process.env.PORT || 5000;
