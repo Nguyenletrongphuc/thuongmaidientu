@@ -213,8 +213,8 @@
             } else {
                 products.forEach(product => {
                     const productHTML = `
-                        <div style="width: 100%; background-color: #fff;" >
-                                    <div style="width: 200px;padding-top:5px; class="home_product_item">
+                        <div style="background-color: #fff; display: flex; flex-wrap: wrap;padding: 5px;" >
+                                    <div style="width: 200px; padding: 5px; class="home_product_item">
                                         <div class="home_product_item_img" style="background-image: url(${product.image});"></div>
                                         <h4 class="home_product_item_name">${product.name}</h4>
                                         <p class="home_product_item_price">Giá: ${product.price.toLocaleString("vi-VN")} vnđ</p>
