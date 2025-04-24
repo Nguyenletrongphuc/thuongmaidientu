@@ -41,7 +41,9 @@ app.get("/api", (req, res) => {
 // Import các route API
 const productRoutes = require("./routes/productRoutes");
 const { router: authRoutes } = require("./routes/auth");
+const userRoutes = require("./routes/userRoutes");
 
+app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
 app.use(express.static(path.join(__dirname, "..")));

@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <span class="header__nav-item__user-name">${username}</span>
                 <ul class="header__nav-user-menu">
                     <li class="header__nav-user__item">
-                        <a href="">Tài khoản</a>
+                        <a href="profile.html">Tài khoản</a>
                     </li>
                     <li class="header__nav-user__item">
                         <a href="">Địa chỉ</a>
