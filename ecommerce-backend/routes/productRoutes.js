@@ -25,6 +25,18 @@ router.get("/get-products", async (req, res) => {
         res.status(500).json({ message: "Lỗi khi lấy sản phẩm", error });
     }
 });
+// API lấy chi tiết 1 sản phẩm theo id
+router.get("/get-product/:id", async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+            return res.status(404).json({ message: "Không tìm thấy sản phẩm" });
+        }
+        res.status(200).json(product);
+    } catch (error) {
+        res.status(500).json({ message: "Lỗi khi lấy chi tiết sản phẩm", error });
+    }
+});
 // API xóa sản phẩm
 router.delete("/delete-product/:id", async (req, res) => {
     try {

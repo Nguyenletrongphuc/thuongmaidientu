@@ -180,27 +180,47 @@
     
             const productContainer = document.querySelector(".grid_row_2");
             productContainer.innerHTML = "";
-    
             products.forEach(product => {
-                const productHTML = `
-                    <div class="grid_colum_2_4">
-                        <div class="home_product_item">
-                            <div class="home_product_item_img" style="background-image: url(${product.image});"></div>
-                            <h4 class="home_product_item_name">${product.name}</h4>
-                            <p class="home_product_item_price">Giá: ${product.price.toLocaleString("vi-VN")} vnđ</p>
-                            <div class="home_product_item_action">
-                                <button class="add-to-cart-btn" onclick='addToCart(${JSON.stringify(product)})'>
-                                    Thêm vào giỏ
-                                </button>
-                                <span class="like">
-                                    <i class="saled">${product.sold} Đã bán</i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                productContainer.innerHTML += productHTML;
-            });
+    const productHTML = `
+        <div class="grid_colum_2_4">
+            <div class="home_product_item" onclick="goToProductDetail('${product._id}')">
+                <div class="home_product_item_img" style="background-image: url(${product.image});"></div>
+                <h4 class="home_product_item_name">${product.name}</h4>
+                <p class="home_product_item_price">Giá: ${product.price.toLocaleString("vi-VN")} vnđ</p>
+                <div class="home_product_item_action">
+                    <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${JSON.stringify(product)})">
+                        Thêm vào giỏ
+                    </button>
+                    <span class="like">
+                        <i class="saled">${product.sold} Đã bán</i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    `;
+    productContainer.innerHTML += productHTML;
+});
+    
+    //         products.forEach(product => {
+    //             const productHTML = `
+    //                 <div class="grid_colum_2_4">
+    //                     <div class="home_product_item">
+    //                         <div class="home_product_item_img" style="background-image: url(${product.image});"></div>
+    //                         <h4 class="home_product_item_name">${product.name}</h4>
+    //                         <p class="home_product_item_price">Giá: ${product.price.toLocaleString("vi-VN")} vnđ</p>
+    //                         <div class="home_product_item_action">
+    //                             <button class="add-to-cart-btn" onclick='addToCart(${JSON.stringify(product)})'>
+    //                                 Thêm vào giỏ
+    //                             </button>
+    //                             <span class="like">
+    //                                 <i class="saled">${product.sold} Đã bán</i>
+    //                             </span>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //             `;
+    //             productContainer.innerHTML += productHTML;
+    //         });
     
         } catch (error) {
             console.error("Lỗi khi lấy sản phẩm:", error);
@@ -216,6 +236,11 @@
             }
           });
         });
-      </script>
+        </script>
+    <script>
+        function goToProductDetail(id) {
+            window.location.href = `chitietsanpham.html?id=${id}`;
+        }
+        </script>
 </body>
 </html>

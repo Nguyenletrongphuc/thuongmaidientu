@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vn">
+<head>
+    <title>Sách Ơi - Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="asset/main.css">
+    <link rel="stylesheet" type="text/css" href="asset/sanpham.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Dancing Script:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="asset/img/themify-icons-font/themify-icons/themify-icons.css">
+    <script src="asset/dongbodangnhap.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="grid">
+                <nav class="header__navbar ">
+                    <ul class="header__nav-list">
+                        <li class="header__nav-item phancach">Vào cửa hàng trên ứng dụng</li>
+                        <li class="header__nav-item">Kết nối
+                            <a href="https://facebook.com" class="nav-item__icon">
+                                <i class="ti-facebook"></i>
+                            </a>
+                            <a href="https://instagram.com" class="nav-item__icon">
+                                <i class="ti-instagram"></i>
+                            </a>
+                        </li>
+                        <li class="header__nav-item hearder__thongbao__hien">
+                            <a href="" class="nav-item__icon">
+                                <i class="ti-bell"></i>
+                                Thông báo
+                            </a>
+                            <div class="hearder_thongbao">
+                                <header class="hearder_thongbao-head">
+                                    <h3>Thông Báo Mới</h3>
+                                </header>
+                                <ul class="hearder_thongbao_list">
+                                    <li class="hearder_thongbao_list_item">
+                                        <a href="" class="hearder_thongbao_link">
+                                            <img src="https://ischool.vn/wp-content/uploads/2022/12/nhung-cuon-sach-hay-cho-tre-10-tuoi-3.jpg" alt="">
+                                        <div class="hearder_thongbao_info">
+                                            <p class="hearder_thongbao_name">Sách trẻ em</p>
+                                            <p class="hearder_thongbao_mota">Phù hợp cho tuổi 5-10</p>
+                                        </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <footer class="hearder_thongbao-footer">
+                                    <a href="" class="hearder_thongbao-footer-btn">Xem tất cả</a>
+                                </footer>
+                            </div>
+                        </li>
+                        <li class="header__nav-item">
+                            <a href="" class="nav-item__icon">
+                                <i class="ti-help-alt"></i>
+                                Trợ giúp
+                            </a>
+                        </li>
+                        <li class="header__nav-item">
+                            <a href="admin2084.html" id="adminLink" class="go-admin">Admin</a>
+                        </li>
+
+                    </ul>
+                    <ul class="header__nav-list">
+                        <li class="header__nav_user_btn">
+                            <button class="signup custom-btn btn-9">
+                             <a href="signup.html">Đăng Nhập/Đăng Ký</a>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- phan tim kiem -->
+            <div class="grid__timkiem">
+                <div class="header__logo">
+                    <a href="index.html" class="header__logo-link">
+                        <img src="asset/img/logo-removebg-preview.png" alt="" class="header__logo-img">
+                    </a>
+                </div>
+                <form id="searchForm" class="header__search">
+                    <input type="text" id="searchInput" class="header__search-input" placeholder="Tìm kiếm sản phẩm">
+                    <button type="submit" class="header__search-btn">
+                        <i class="ti-search"></i>
+                    </button>
+                </form>
+                <div class="header__cart">
+                    <a href="giohang.html " class="header__cart-link">
+                        <i class="ti-shopping-cart"></i>
+                    </a>
+                    <div class="header__cart_list header__cart_list__none ">
+                        <img src="https://lucaga.com/assets/images/no-cart.png" alt="no__cart" class="no__cart__img">
+                    </div>
+                    
+                </div>
+                
+        </header>
+        <div class="content">
+            <div class="product-detail" id="product-detail">
+                <script>
+                    async function loadProductDetail() {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const productId = urlParams.get('id');
+            
+                        if (!productId) {
+                            document.getElementById('product-detail').innerHTML = '<p>Không tìm thấy sản phẩm</p>';
+                            return;
+                        }
+            
+                        try {
+                            const response = await fetch(`http://localhost:5000/api/products/get-product/${productId}`);
+                            const product = await response.json();
+            
+                            const productDetailHTML = `
+                                <div class="product-detail-container">
+                                <img src="${product.image}" alt="${product.name}" class="product-detail-image">
+                                    <div class="product-detail-info">
+                                    <h1>${product.name}</h1>
+                                    <p>Giá: ${product.price.toLocaleString('vi-VN')} vnđ</p>
+                                    <p>Số lượng đã bán: ${product.sold}</p>
+                                    <p>Mô tả: ${product.description || 'Không có mô tả.'}</p>
+                                    <button class="add-to-cart-btn" onclick='addToCart(${JSON.stringify(product)})'>Thêm vào giỏ hàng</button>
+                                    </div>
+                                </div>
+                            `;
+            
+                            document.getElementById('product-detail').innerHTML = productDetailHTML;
+                        } catch (error) {
+                            console.error('Lỗi lấy sản phẩm:', error);
+                            document.getElementById('product-detail').innerHTML = '<p>Lỗi tải sản phẩm.</p>';
+                        }
+                    }
+            
+                    loadProductDetail();
+                </script>
+            </div>
+        </div>
+        <div class="footer">
+           <ul class="footer_list">
+            <li class="footer_item">
+                <h3>Thông tin liên hệ</h3>
+                <p>&copy; Bản quyền thuộc về team đổ án 2025</p>
+                <P>&phone;Thông tin liên hệ: 0334321797</P>
+            </li>
+            <li class="footer_item">
+                <h3>Giới thiệu</h3>
+                <p> Giới thiệu</p>
+                <P>Điều khoản</P>
+            </li>
+           </ul>
+        </div>
+    </div>
+   
+     <script>
+        window.addEventListener("DOMContentLoaded", function () {
+          document.getElementById("searchForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const query = document.getElementById("searchInput").value.trim();
+            if (query) {
+              window.location.href = `timkiem.html?query=${encodeURIComponent(query)}`;
+            }
+          });
+        });
+      </script>
+</body>
+</html>
