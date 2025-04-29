@@ -7,55 +7,85 @@
     <link rel="stylesheet" href="/asset/base.css">
 </head>
 <body>
-    <div id="add-product">
-        <form id="add-product-form" class="add-product-form">
-            <h2>Thêm Sản Phẩm</h2>
-        
-            <label for="product-name">Tên sản phẩm:</label>
-            <input type="text" id="product-name" required>
-        
-            <label for="product-quantity">Số lượng:</label>
-            <input type="number" id="product-quantity" required>
-        
-            <label for="product-price">Giá (VNĐ):</label>
-            <input type="number" id="product-price" required>
-        
-            <label for="product-sold">Đã bán:</label>
-            <input type="number" id="product-sold" required>
-        
-            <label for="product-description">Mô tả sản phẩm:</label>
-            <textarea id="product-description" rows="4" required></textarea>
-        
-            <label for="product-image-url">URL Ảnh:</label>
-            <input type="url" id="product-image-url" placeholder="Nhập URL ảnh" required>
-        
-            <!-- Hiển thị ảnh xem trước -->
-            <img id="preview-image" alt="Xem trước ảnh">
-        
-            <button type="submit">Thêm Sản Phẩm</button>
-        </form>
+    <div class="header__nav-item">
+        <div id="add-product">
+            <form id="add-product-form" class="add-product-form">
+                <h2>Thêm Sản Phẩm</h2>
+            
+                <label for="add-product-name">Tên sản phẩm:</label>
+                <input type="text" id="add-product-name" required>
+            
+                <label for="add-product-quantity">Số lượng:</label>
+                <input type="number" id="add-product-quantity" required>
+            
+                <label for="add-product-price">Giá (VNĐ):</label>
+                <input type="number" id="add-product-price" required>
+            
+                <label for="product-sold">Đã bán:</label>
+                <input type="number" id="add-product-sold" required>
+    
+                <label for="add-product-category"><strong>Thể loại:</strong></label>
+                <input type="text" id="add-product-category">
+            
+                <label for="add-product-description">Mô tả sản phẩm:</label>
+                <textarea id="add-product-description" rows="4" required></textarea>
+            
+                <label for="add-product-image-url">URL Ảnh:</label>
+                <input type="url" id="add-product-image-url" placeholder="Nhập URL ảnh" required>
+            
+                <!-- Hiển thị ảnh xem trước -->
+                <img id="add-preview-image" alt="Xem trước ảnh">
+            
+                <button type="submit">Thêm Sản Phẩm</button>
+            </form>
+        </div>
+        <div id="edit-product">
+            <form id="edit-product-form" class="edit-product-form">
+                <h2>Sửa Sản Phẩm</h2>
+            
+                <label for="edit-product-name">Tên sản phẩm:</label>
+                <input type="text" id="edit-product-name" required>
+            
+                <label for="edit-product-quantity">Số lượng:</label>
+                <input type="number" id="edit-product-quantity" required>
+            
+                <label for="edit-product-price">Giá (VNĐ):</label>
+                <input type="number" id="edit-product-price" required>
+            
+                <label for="edit-product-sold">Đã bán:</label>
+                <input type="number" id="edit-product-sold" required>
+    
+                <label for="edit-category"><strong>Thể loại:</strong></label>
+                <input type="text" id="edit-product-category">
+            
+                <label for="edit-product-description">Mô tả sản phẩm:</label>
+                <textarea id="edit-product-description" rows="4" required></textarea>
+            
+                <label for="edit-product-image-url">URL Ảnh:</label>
+                <input type="url" id="edit-product-image-url" placeholder="Nhập URL ảnh" required>
+            
+                <!-- Hiển thị ảnh xem trước -->
+                <img id="edit-preview-image" alt="Xem trước ảnh">
+            
+                <button type="submit">Sửa Sản Phẩm</button>
+            </form>
+        </div>
     </div>
     <div id="product-list" class="product-list">
         <!-- Mỗi sản phẩm sẽ được hiển thị trong một thẻ -->
         <div class="product-item">
-            <!-- <img src="https://via.placeholder.com/150" alt="Ảnh sản phẩm" class="product-item__image">
-            <div class="product-item__details">
-                <h3 class="product-item__name">Tên sản phẩm</h3>
-                <p class="product-item__description">Mô tả sản phẩm</p>
-                <p class="product-item__price">Giá: 100,000 VNĐ</p>
-                <p class="product-item__quantity">Số lượng: 10</p>
-                <p class="product-item__sold">Đã bán: 5</p>
-            </div>
-            <div class="product-item__actions">
-                <button class="edit-product-btn">Sửa</button>
-                <button class="delete-product-btn">Xóa</button>
-            </div> -->
         </div>
     </div>
     
     <script>
-    document.getElementById("product-image-url").addEventListener("input", function () {
-    const preview = document.getElementById("preview-image");
+    document.getElementById("add-product-image-url").addEventListener("input", function () {
+    const preview = document.getElementById("add-preview-image");
+    preview.src = this.value;
+    preview.style.display = this.value ? "block" : "none";
+});
+    
+    document.getElementById("edit-product-image-url").addEventListener("input", function () {
+    const preview = document.getElementById("edit-preview-image");
     preview.src = this.value;
     preview.style.display = this.value ? "block" : "none";
 });
@@ -63,16 +93,15 @@
 document.getElementById("add-product-form").addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    const rawPrice = document.getElementById("product-price").value.replace(/\./g, "");
-
     const productData = {
-    name: document.getElementById("product-name").value,
-    quantity: Number(document.getElementById("product-quantity").value),
-    price: Number(rawPrice), // đảm bảo đúng định dạng số
-    sold: Number(document.getElementById("product-sold").value),
-    description: document.getElementById("product-description").value,
-    image: document.getElementById("product-image-url").value
-};
+        name: document.getElementById("add-product-name").value,
+        category: document.getElementById("add-product-category").value,
+        quantity: Number(document.getElementById("add-product-quantity").value),
+        price: Number(document.getElementById("add-product-price").value),
+        sold: Number(document.getElementById("add-product-sold").value),
+        description: document.getElementById("add-product-description").value,
+        image: document.getElementById("add-product-image-url").value
+    };
 
     try {
         const response = await fetch("http://localhost:5000/api/products/add-product", {
@@ -83,6 +112,7 @@ document.getElementById("add-product-form").addEventListener("submit", async fun
 
         const result = await response.json();
         alert(result.message);
+        location.reload(); // Reload để cập nhật danh sách sản phẩm
     } catch (error) {
         alert("Lỗi khi thêm sản phẩm");
         console.error(error);
@@ -92,17 +122,16 @@ document.getElementById("add-product-form").addEventListener("submit", async fun
 document.addEventListener("DOMContentLoaded", async function () {
     const productList = document.getElementById("product-list");
 
-    // Lấy danh sách sản phẩm từ API
     try {
         const response = await fetch("http://localhost:5000/api/products/get-products");
         const products = await response.json();
 
-        // Hiển thị danh sách sản phẩm
         productList.innerHTML = products.map(product => `
             <div class="product-item" data-id="${product._id}">
                 <img src="${product.image}" alt="${product.name}" class="product-item__image">
                 <div class="product-item__details">
                     <h3 class="product-item__name">${product.name}</h3>
+                    <p class="product-item__category">${product.category}</p>
                     <p class="product-item__description">${product.description}</p>
                     <p class="product-item__price">Giá: ${product.price.toLocaleString()} VNĐ</p>
                     <p class="product-item__quantity">Số lượng: ${product.quantity}</p>
@@ -120,10 +149,37 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 // Hàm xử lý sửa sản phẩm
-function editProduct(productId) {
-    alert(`Sửa sản phẩm với ID: ${productId}`);
-    // Thêm logic sửa sản phẩm tại đây
-}
+document.getElementById("edit-product-form").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const productId = this.dataset.id;
+
+    const updatedData = {
+        name: document.getElementById("edit-product-name").value,
+        category: document.getElementById("edit-product-category").value,
+        quantity: Number(document.getElementById("edit-product-quantity").value),
+        price: Number(document.getElementById("edit-product-price").value),
+        sold: Number(document.getElementById("edit-product-sold").value),
+        description: document.getElementById("edit-product-description").value,
+        image: document.getElementById("edit-product-image-url").value
+    };
+
+    try {
+        const response = await fetch(`http://localhost:5000/api/products/update-product/${productId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedData)
+        });
+
+        const result = await response.json();
+        alert(result.message);
+        location.reload(); // Reload để cập nhật danh sách sản phẩm
+    } catch (error) {
+        console.error("Lỗi khi cập nhật sản phẩm:", error);
+        alert("Không thể cập nhật sản phẩm.");
+    }
+});
+
 
 // Hàm xử lý xóa sản phẩm
 async function deleteProduct(productId) {
@@ -139,6 +195,30 @@ async function deleteProduct(productId) {
             console.error("Lỗi khi xóa sản phẩm:", error);
             alert("Không thể xóa sản phẩm.");
         }
+    }
+}
+
+async function editProduct(productId) {
+    try {
+        const response = await fetch(`http://localhost:5000/api/products/get-product/${productId}`);
+        const product = await response.json();
+
+        // Gán thông tin vào form sửa
+        document.querySelector("#edit-product-form").dataset.id = productId;
+        document.getElementById("edit-product-name").value = product.name;
+        document.getElementById("edit-product-category").value = product.category || '';
+        document.getElementById("edit-product-quantity").value = product.quantity;
+        document.getElementById("edit-product-price").value = product.price;
+        document.getElementById("edit-product-sold").value = product.sold;
+        document.getElementById("edit-product-description").value = product.description;
+        document.getElementById("edit-product-image-url").value = product.image;
+        document.getElementById("edit-preview-image").src = product.image;
+
+        // Cuộn đến form sửa (nếu muốn)
+        document.querySelector("#edit-product-form").scrollIntoView({ behavior: 'smooth' });
+    } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+        alert("Không thể tải dữ liệu sản phẩm.");
     }
 }
     </script>

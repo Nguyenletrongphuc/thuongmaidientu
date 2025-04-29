@@ -11,7 +11,8 @@ const productSchema = new mongoose.Schema({
     },
     sold: { type: Number, default: 0 },
     description: { type: String },
-    image: { type: String } // URL ảnh
+    image: { type: String } ,
+    category: { type: String, required: true }
 }, { timestamps: true });
 
 module.exports = mongoose.model("Product", productSchema);

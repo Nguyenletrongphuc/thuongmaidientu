@@ -5,8 +5,8 @@ const Product = require("../models/Product");
 // API thêm sản phẩm
 router.post("/add-product", async (req, res) => {
     try {
-        const { name, quantity, price, sold, description, image } = req.body;
-        const newProduct = new Product({ name, quantity, price, sold, description, image });
+        const { name, quantity, price, sold, description, image, category } = req.body;
+        const newProduct = new Product({ name, quantity, price, sold, description, image, category });
 
         await newProduct.save();
         res.status(201).json({ message: "Thêm sản phẩm thành công!", product: newProduct });
@@ -14,8 +14,36 @@ router.post("/add-product", async (req, res) => {
         res.status(500).json({ message: "Lỗi khi thêm sản phẩm", error });
     }
 });
+//// API cập nhật sản phẩm
 
-module.exports = router;
+router.put("/update-product/:id", async (req, res) => {
+    try {
+        const updatedProduct = await Product.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: {
+                    name: req.body.name,
+                    quantity: req.body.quantity,
+                    price: req.body.price,
+                    sold: req.body.sold,
+                    category: req.body.category,
+                    description: req.body.description,
+                    image: req.body.image
+                }
+            },
+            { new: true }
+        );
+
+        if (!updatedProduct) {
+            return res.status(404).json({ message: "Không tìm thấy sản phẩm" });
+        }
+
+        res.json({ message: "Cập nhật sản phẩm thành công", product: updatedProduct });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Lỗi máy chủ khi cập nhật sản phẩm" });
+    }
+});
 // API lấy danh sách sản phẩm
 router.get("/get-products", async (req, res) => {
     try {
@@ -71,3 +99,4 @@ router.get("/search", async (req, res) => {
     }
   });
   
+  module.exports = router;

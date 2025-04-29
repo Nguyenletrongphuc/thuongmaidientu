@@ -117,6 +117,7 @@
                                     <h1>${product.name}</h1>
                                     <p>Giá: ${product.price.toLocaleString('vi-VN')} vnđ</p>
                                     <p>Số lượng đã bán: ${product.sold}</p>
+                                    <p>Thể loại: ${product.category}</p>
                                     <p>Mô tả: ${product.description || 'Không có mô tả.'}</p>
                                     <button class="add-to-cart-btn" onclick='addToCart(${JSON.stringify(product)})'>Thêm vào giỏ hàng</button>
                                     </div>
