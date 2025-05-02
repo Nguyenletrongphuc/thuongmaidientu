@@ -103,28 +103,24 @@
                                 <h3 class="catelory_heading">
                                     <i class="ti-menu-alt"></i>
                                     Danh Mục</h3>
-                                <li class="catelory_item">
-                                    <a href="theloai.html?category=Truyện tranh" class="catelory_link">Truyện tranh</a>
-                                </li>
-                                <li class="catelory_item">
-                                    <a href="theloai.html?category=Tiểu thuyết" class="catelory_link">Tiểu thuyết</a>
-                                </li>
-                                <li class="catelory_item">
-                                    <a href="theloai.html?category=Văn học" class="catelory_link">Văn học</a>
-                                </li>
+                                    <li class="catelory_item">
+                                        <a href="theloai.html?category=Truyện tranh" class="catelory_link">Truyện tranh</a>
+                                    </li>
+                                    <li class="catelory_item">
+                                        <a href="theloai.html?category=Tiểu thuyết" class="catelory_link">Tiểu thuyết</a>
+                                    </li>
+                                    <li class="catelory_item">
+                                        <a href="theloai.html?category=Văn học" class="catelory_link">Văn học</a>
+                                    </li>
                             </ul>
                         </nav>
                     </div>
                     <div class="grid_colum_10">
-                        <div class="home_filter">
-                            <Span class="home_filter_lable">Sắp xếp theo</Span>
-                            <button class="home_file_button">Phổ biến</button>
-                            <button class="home_file_button">Mới nhất </button>
-                            <button class="home_file_button">Bán chạy</button>
-                        </div>
                         <div class="home_product">
-                            <div class="grid_row_2" id="product-list"></div>
-                                
+                            <h2 id="title" style="margin-left: 10px; font-size: 24px; font-weight: bold;"></h2>
+                            <div class="grid_row_2" id="product-list">
+
+                            </div> 
                             </div>
                         </div>
                     </div>
@@ -173,59 +169,7 @@
            </ul>
         </div>
     </div>
-    <script>document.addEventListener("DOMContentLoaded", async function () {
-        try {
-            const response = await fetch("http://localhost:5000/api/products/get-products");
-            const products = await response.json();
-    
-            const productContainer = document.querySelector(".grid_row_2");
-            productContainer.innerHTML = "";
-            products.forEach(product => {
-    const productHTML = `
-        <div class="grid_colum_2_4">
-            <div class="home_product_item" onclick="goToProductDetail('${product._id}')">
-                <div class="home_product_item_img" style="background-image: url(${product.image});"></div>
-                <h4 class="home_product_item_name">${product.name}</h4>
-                <p class="home_product_item_price">Giá: ${product.price.toLocaleString("vi-VN")} vnđ</p>
-                <div class="home_product_item_action">
-                    <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${JSON.stringify(product)})">
-                        Thêm vào giỏ
-                    </button>
-                    <span class="like">
-                        <i class="saled">${product.sold} Đã bán</i>
-                    </span>
-                </div>
-            </div>
-        </div>
-    `;
-    productContainer.innerHTML += productHTML;
-});
-    
-    //         products.forEach(product => {
-    //             const productHTML = `
-    //                 <div class="grid_colum_2_4">
-    //                     <div class="home_product_item">
-    //                         <div class="home_product_item_img" style="background-image: url(${product.image});"></div>
-    //                         <h4 class="home_product_item_name">${product.name}</h4>
-    //                         <p class="home_product_item_price">Giá: ${product.price.toLocaleString("vi-VN")} vnđ</p>
-    //                         <div class="home_product_item_action">
-    //                             <button class="add-to-cart-btn" onclick='addToCart(${JSON.stringify(product)})'>
-    //                                 Thêm vào giỏ
-    //                             </button>
-    //                             <span class="like">
-    //                                 <i class="saled">${product.sold} Đã bán</i>
-    //                             </span>
-    //                         </div>
-    //                     </div>
-    //                 </div>
-    //             `;
-    //             productContainer.innerHTML += productHTML;
-    //         });
-    
-        } catch (error) {
-            console.error("Lỗi khi lấy sản phẩm:", error);
-        }
-    });</script>
+
      <script>
         window.addEventListener("DOMContentLoaded", function () {
           document.getElementById("searchForm").addEventListener("submit", function(e) {
@@ -242,5 +186,54 @@
             window.location.href = `chitietsanpham.html?id=${id}`;
         }
         </script>
+         <script>
+            document.addEventListener("DOMContentLoaded", async () => {
+              const params = new URLSearchParams(window.location.search);
+              const category = params.get("category");
+        
+              document.getElementById("title").textContent = `Thể loại: ${category}`;
+        
+              try {
+                const res = await fetch("http://localhost:5000/api/products/get-products");
+                const allProducts = await res.json();
+                const filtered = allProducts.filter(p => p.category === category);
+                renderProducts(filtered);
+              } catch (err) {
+                console.error("Lỗi khi lấy sản phẩm:", err);
+              }
+        
+            //   function renderProducts(products) {
+            //     const container = document.getElementById("product-list");
+            //     container.innerHTML = products.map(p => `
+            //       <div class="product-item">
+            //         <img src="${p.image}" alt="${p.name}" class="product-item__image">
+            //         <h3>${p.name}</h3>
+            //         <p>${p.description}</p>
+            //         <p>Giá: ${p.price.toLocaleString()} VNĐ</p>
+            //       </div>
+            //     `).join("");
+            //   }
+            function renderProducts(products) {
+    const container = document.getElementById("product-list");
+    container.innerHTML = products.map(product => `
+        <div class="grid_colum_2_4">
+            <div class="home_product_item" onclick="goToProductDetail('${product._id}')">
+                <div class="home_product_item_img" style="background-image: url('${product.image}');"></div>
+                <h4 class="home_product_item_name">${product.name}</h4>
+                <p class="home_product_item_price">Giá: ${product.price.toLocaleString("vi-VN")} VNĐ</p>
+                <div class="home_product_item_action">
+                    <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${JSON.stringify(product)})">
+                        Thêm vào giỏ
+                    </button>
+                    <span class="like">
+                        <i class="saled">${product.sold} Đã bán</i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    `).join("");
+}
+            });
+          </script>
 </body>
 </html>

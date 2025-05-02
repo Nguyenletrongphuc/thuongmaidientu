@@ -76,9 +76,10 @@
 }
 
 /* Ảnh xem trước */
-#preview-image {
+#edit-preview-image,
+#add-preview-image {
     display: block;
-    max-width: 100%;
+    max-width: 200px;
     height: auto;
     margin: 10px auto;
     border: 1px solid #ddd;
