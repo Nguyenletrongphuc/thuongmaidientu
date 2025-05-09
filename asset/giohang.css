@@ -148,6 +148,7 @@
   
   .checkout-btn {
     background: #f44336;
+    text-decoration: none;
     color: white;
     border: none;
     padding: 12px 30px;
@@ -157,6 +158,9 @@
     margin-bottom: 15px;
   }
   
+  .continue-shopping{
+    padding-top: 20px;
+  }
   .continue-shopping a {
     color: #666;
     text-decoration: none;

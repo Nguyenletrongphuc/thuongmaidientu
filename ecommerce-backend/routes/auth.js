@@ -78,21 +78,21 @@ router.get("/google/callback", passport.authenticate("google", {
 });
 
 // ======================== Middleware xác thực ========================
+
 const authenticateToken = (req, res, next) => {
-    const authHeader = req.header("Authorization");
-    if (!authHeader) return res.status(401).json({ message: "Không có token, truy cập bị từ chối!" });
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ message: "Không có token" });
 
-    const token = authHeader.split(" ")[1]; // Tách từ "Bearer <token>"
-    if (!token) return res.status(401).json({ message: "Token không hợp lệ!" });
+  const token = authHeader.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "Token không hợp lệ" });
 
-    try {
-        const verified = jwt.verify(token, JWT_SECRET);
-        req.user = verified;
-        next();
-    } catch (error) {
-        res.status(400).json({ message: "Token không hợp lệ!" });
-    }
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded; // { id, name, role }
+    next();
+  } catch (err) {
+    return res.status(403).json({ message: "Token sai hoặc hết hạn" });
+  }
 };
 
-
-module.exports = { router, authenticateToken };
+module.exports = { authenticateToken, router };

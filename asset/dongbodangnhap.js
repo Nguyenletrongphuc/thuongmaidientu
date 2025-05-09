@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <a href="">Địa chỉ</a>
                     </li>
                     <li class="header__nav-user__item">
-                        <a href="">Đơn mua</a>
+                        <a href="donhang.html">Đơn mua</a>
                     </li>
                     <li class="header__nav-user__item header__nav-user__ngancach">
                         <a href="#" id="logout-btn">Đăng xuất</a>
@@ -56,9 +56,9 @@ function addToCart(product) {
     // Kiểm tra sản phẩm đã có chưa
     const existing = cart.find(item => item._id === product._id);
     if (existing) {
-        existing.quantity += 1;
+        existing.cartQuantity+= 1;
     } else {
-        cart.push({ ...product, quantity: 1 });
+        cart.push({ ...product, cartQuantity: 1 });
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));

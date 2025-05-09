@@ -14,7 +14,8 @@ document.querySelector(".sign-in-container form").addEventListener("submit", asy
 
     if (response.ok) {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("user", data.name);
+        localStorage.setItem("user", data.user.name);
+        localStorage.setItem("userId", data.user._id);
         window.location.href = "/index.html"; // Chuyển về trang chủ
     } else {
         alert(data.message);

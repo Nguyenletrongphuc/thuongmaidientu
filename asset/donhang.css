@@ -1,0 +1,140 @@
+/* Container chính */
+.order-list-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề danh sách đơn hàng */
+.order-list-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+/* Danh sách đơn hàng */
+.order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Mỗi đơn hàng */
+.order-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Header của đơn hàng */
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #555;
+}
+
+.order-header .order-id span,
+.order-header .order-date span,
+.order-header .order-status span,
+.order-header .order-payment span {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Trạng thái đơn hàng */
+.status-pending {
+    color: #ff9800;
+}
+
+.status-completed {
+    color: #4caf50;
+}
+
+.status-cancelled {
+    color: #f44336;
+}
+
+/* Danh sách sản phẩm */
+.order-products h4 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.product-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.product-name {
+    font-weight: bold;
+    color: #333;
+}
+
+.product-quantity,
+.product-price {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Footer của đơn hàng */
+.order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.order-total span {
+    font-weight: bold;
+    color: #333;
+    font-size: 16px;
+}
+
+.order-details-btn {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.order-details-btn:hover {
+    background-color: #0056b3;
+}

@@ -192,40 +192,19 @@
                         Thêm vào giỏ
                     </button>
                     <span class="like">
-                        <i class="saled">${product.sold} Đã bán</i>
+                        <i class="saled">Số lượng ${product.quantity}</i>
                     </span>
                 </div>
             </div>
         </div>
     `;
     productContainer.innerHTML += productHTML;
-});
-    
-    //         products.forEach(product => {
-    //             const productHTML = `
-    //                 <div class="grid_colum_2_4">
-    //                     <div class="home_product_item">
-    //                         <div class="home_product_item_img" style="background-image: url(${product.image});"></div>
-    //                         <h4 class="home_product_item_name">${product.name}</h4>
-    //                         <p class="home_product_item_price">Giá: ${product.price.toLocaleString("vi-VN")} vnđ</p>
-    //                         <div class="home_product_item_action">
-    //                             <button class="add-to-cart-btn" onclick='addToCart(${JSON.stringify(product)})'>
-    //                                 Thêm vào giỏ
-    //                             </button>
-    //                             <span class="like">
-    //                                 <i class="saled">${product.sold} Đã bán</i>
-    //                             </span>
-    //                         </div>
-    //                     </div>
-    //                 </div>
-    //             `;
-    //             productContainer.innerHTML += productHTML;
-    //         });
-    
+});  
         } catch (error) {
             console.error("Lỗi khi lấy sản phẩm:", error);
         }
     });</script>
+    
      <script>
         window.addEventListener("DOMContentLoaded", function () {
           document.getElementById("searchForm").addEventListener("submit", function(e) {

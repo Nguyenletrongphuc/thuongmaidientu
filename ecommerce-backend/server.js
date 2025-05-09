@@ -42,7 +42,10 @@ app.get("/api", (req, res) => {
 const productRoutes = require("./routes/productRoutes");
 const { router: authRoutes } = require("./routes/auth");
 const userRoutes = require("./routes/userRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
+
+app.use("/api/orders", orderRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);

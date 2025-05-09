@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="vn">
+<head>
+    <title>Sách Ơi - Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" type="text/css" href="asset/base.css"> -->
+    <link rel="stylesheet" type="text/css" href="asset/main.css">
+    <link rel="stylesheet" type="text/css" href="asset/checkout.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Dancing Script:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="asset/img/themify-icons-font/themify-icons/themify-icons.css">
+    <script src="asset/dongbodangnhap.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="grid">
+                <nav class="header__navbar ">
+                    <ul class="header__nav-list">
+                        <li class="header__nav-item phancach">Vào cửa hàng trên ứng dụng</li>
+                        <li class="header__nav-item">Kết nối
+                            <a href="https://facebook.com" class="nav-item__icon">
+                                <i class="ti-facebook"></i>
+                            </a>
+                            <a href="https://instagram.com" class="nav-item__icon">
+                                <i class="ti-instagram"></i>
+                            </a>
+                        </li>
+                        <li class="header__nav-item hearder__thongbao__hien">
+                            <a href="" class="nav-item__icon">
+                                <i class="ti-bell"></i>
+                                Thông báo
+                            </a>
+                            <div class="hearder_thongbao">
+                                <header class="hearder_thongbao-head">
+                                    <h3>Thông Báo Mới</h3>
+                                </header>
+                                <ul class="hearder_thongbao_list">
+                                    <li class="hearder_thongbao_list_item">
+                                        <a href="" class="hearder_thongbao_link">
+                                            <img src="https://ischool.vn/wp-content/uploads/2022/12/nhung-cuon-sach-hay-cho-tre-10-tuoi-3.jpg" alt="">
+                                        <div class="hearder_thongbao_info">
+                                            <p class="hearder_thongbao_name">Sách trẻ em</p>
+                                            <p class="hearder_thongbao_mota">Phù hợp cho tuổi 5-10</p>
+                                        </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <footer class="hearder_thongbao-footer">
+                                    <a href="" class="hearder_thongbao-footer-btn">Xem tất cả</a>
+                                </footer>
+                            </div>
+                        </li>
+                        <li class="header__nav-item">
+                            <a href="" class="nav-item__icon">
+                                <i class="ti-help-alt"></i>
+                                Trợ giúp
+                            </a>
+                        </li>
+                        <li class="header__nav-item">
+                            <a href="admin2084.html" id="adminLink" class="go-admin">Admin</a>
+                        </li>
+
+                    </ul>
+                    <ul class="header__nav-list">
+                        <li class="header__nav_user_btn">
+                            <button class="signup custom-btn btn-9">
+                             <a href="signup.html">Đăng Nhập/Đăng Ký</a>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- phan tim kiem -->
+            <div class="grid__timkiem">
+                <div class="header__logo">
+                    <a href="index.html" class="header__logo-link">
+                        <img src="asset/img/logo-removebg-preview.png" alt="" class="header__logo-img">
+                    </a>
+                </div>
+                <form id="searchForm" class="header__search">
+                    <input type="text" id="searchInput" class="header__search-input" placeholder="Tìm kiếm sản phẩm">
+                    <button type="submit" class="header__search-btn">
+                        <i class="ti-search"></i>
+                    </button>
+                </form>
+                <div class="header__cart">
+                    <a href="giohang.html " class="header__cart-link">
+                        <i class="ti-shopping-cart"></i>
+                    </a>
+                    <div class="header__cart_list header__cart_list__none ">
+                        <img src="https://lucaga.com/assets/images/no-cart.png" alt="no__cart" class="no__cart__img">
+                    </div>
+                    
+                </div>
+                
+        </header>
+        <div class="content">
+            <div class="checkout-form">
+                <!-- Thông tin người dùng -->
+                <div class="user-info">
+                    <h3>Thông tin người dùng</h3>
+                    <label for="user-name">Tên:</label>
+                    <input type="text" id="user-name" placeholder="Nhập tên của bạn" required>
+                    
+                    <label for="user-address">Địa chỉ:</label>
+                    <input type="text" id="user-address" placeholder="Nhập địa chỉ của bạn" required>
+                    
+                    <label for="user-phone">Số điện thoại:</label>
+                    <input type="tel" id="user-phone" placeholder="Nhập số điện thoại của bạn" required>
+                </div>
+            
+                <!-- Phương thức thanh toán -->
+                <div class="payment-method">
+                    <h3>Phương thức thanh toán</h3>
+                    <label>
+                        <input type="radio" name="payment-method" value="cod" required>
+                        Thanh toán khi nhận hàng
+                    </label>
+                    <label>
+                        <input type="radio" name="payment-method" value="momo" required>
+                        Thanh toán bằng MoMo
+                    </label>
+                </div>
+            
+                <!-- Sản phẩm muốn đặt -->
+                <div class="order-summary">
+                    <h3>Sản phẩm muốn đặt</h3>
+                    <div class="cart-items">
+                        <!-- Các sản phẩm sẽ được thêm động tại đây -->
+                    </div>
+                    <div class="cart-summary-section">
+                        <div class="summary-details">
+                            <div class="summary-row">
+                                <span>Tạm tính:</span>
+                                <span class="subtotal">0 ₫</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Tổng tiền:</span>
+                                <span class="grand-total">0 ₫</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Nút đặt hàng -->
+                <button id="place-order-btn" class="place-order-btn">Đặt hàng</button>
+            </div>
+        </div>
+        <div class="footer">
+           <ul class="footer_list">
+            <li class="footer_item">
+                <h3>Thông tin liên hệ</h3>
+                <p>&copy; Bản quyền thuộc về team đổ án 2025</p>
+                <P>&phone;Thông tin liên hệ: 0334321797</P>
+            </li>
+            <li class="footer_item">
+                <h3>Giới thiệu</h3>
+                <p> Giới thiệu</p>
+                <P>Điều khoản</P>
+            </li>
+           </ul>
+        </div>
+    </div>
+
+     <script>
+        window.addEventListener("DOMContentLoaded", function () {
+          document.getElementById("searchForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const query = document.getElementById("searchInput").value.trim();
+            if (query) {
+              window.location.href = `timkiem.html?query=${encodeURIComponent(query)}`;
+            }
+          });
+        });
+        </script>
+    <script>
+        function goToProductDetail(id) {
+            window.location.href = `chitietsanpham.html?id=${id}`;
+        }
+        </script>
+    <script>
+        document.getElementById("place-order-btn").addEventListener("click", async function () {
+            const userName = localStorage.getItem("userName"); // Lấy userName từ localStorage
+            const token = localStorage.getItem("token"); // Lấy token từ localStorage
+
+            if (!userName || !token) {
+                alert("Bạn cần đăng nhập để đặt hàng!");
+                return;
+            }
+
+            const userAddress = document.getElementById("user-address").value.trim();
+            const userPhone = document.getElementById("user-phone").value.trim();
+            const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
+
+            if (!userAddress || !userPhone) {
+                alert("Vui lòng điền đầy đủ thông tin!");
+                return;
+            }
+
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart.length === 0) {
+                alert("Giỏ hàng trống!");
+                return;
+            }
+
+            const totalAmount = cart.reduce((total, item) => total + item.price * item.cartQuantity, 0);
+
+            const orderData = { 
+                items: cart.map(item => ({
+                    product: item._id,
+                    quantity: item.cartQuantity,
+                    price: item.price,
+                })),
+                totalAmount,
+                address: userAddress,
+                phone: userPhone,
+                paymentMethod,
+            };
+
+            try {
+                const response = await fetch("http://localhost:5000/api/orders/create", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`, // Gửi token trong header
+                    },
+                    body: JSON.stringify(orderData),
+                });
+
+                if (!response.ok) {
+                    throw new Error("Không thể tạo đơn hàng!");
+                }
+
+                const result = await response.json();
+                alert(result.message);
+                localStorage.removeItem("cart"); // Xóa giỏ hàng sau khi đặt hàng thành công
+                window.location.href = "index.html"; // Chuyển hướng về trang chủ
+            } catch (error) {
+                console.error("Lỗi khi tạo đơn hàng:", error);
+                alert("Có lỗi xảy ra khi tạo đơn hàng!");
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const cartItemsContainer = document.querySelector(".cart-items");
+            const subtotalElement = document.querySelector(".subtotal");
+            const grandTotalElement = document.querySelector(".grand-total");
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = "<p>Giỏ hàng trống.</p>";
+                return;
+            }
+
+            // Hiển thị danh sách sản phẩm
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <div class="cart-item" data-id="${item._id}">
+                    <div class="item-image">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div class="item-info">
+                        <h3 class="item-title">${item.name}</h3>
+                        <div class="item-price">${item.price.toLocaleString()} ₫</div>
+                        <div class="item-quantity">
+                            <input type="number" value="${item.cartQuantity}" min="1" readonly>
+                        </div>
+                    </div>
+                    <div class="item-total">
+                        <div class="total-price">${(item.price * item.cartQuantity).toLocaleString()} ₫</div>
+                    </div>
+                </div>
+            `).join("");
+
+            // Tính tổng tiền
+            const calculateTotal = () => {
+                let total = 0;
+                cart.forEach(item => {
+                    total += item.price * item.cartQuantity;
+                });
+                subtotalElement.textContent = `${total.toLocaleString()} ₫`;
+                grandTotalElement.textContent = `${total.toLocaleString()} ₫`;
+            };
+
+            calculateTotal();
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem("token"); // Lấy token từ localStorage
+
+            if (!token) {
+                alert("Bạn cần đăng nhập để tiếp tục!");
+                window.location.href = "signup.html"; // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
+                return;
+            }
+
+            try {
+                // Gửi yêu cầu đến API để lấy thông tin người dùng
+                const response = await fetch("http://localhost:5000/api/users/profile", {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error("Không thể lấy thông tin người dùng!");
+                }
+
+                const user = await response.json();
+                window.userId = user._id;
+
+                // Hiển thị thông tin người dùng vào các trường
+                document.getElementById("user-name").value = user.name || "";
+                document.getElementById("user-address").value = user.address || "";
+                document.getElementById("user-phone").value = user.phone || "";
+            } catch (error) {
+                console.error("Lỗi khi tải thông tin người dùng:", error);
+                alert("Có lỗi xảy ra khi tải thông tin người dùng!");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -117,20 +117,18 @@
         <div class="cart-summary-section">
           <div class="summary-details">
             <div class="summary-row">
-              <span>Tạm tính:</span>
-              <span>59.500 ₫</span>
-            </div>
-            <div class="summary-row">
               <span>Giảm giá:</span>
               <span>0 ₫</span>
             </div>
             <div class="summary-row total">
               <span>Tổng tiền:</span>
-              <span class="grand-total">59.500 ₫</span>
+              <span class="grand-total">0 ₫</span>
             </div>
           </div>
+          <div class="summary-actions">
+            <a href="checkout.html" class="checkout-btn" >TIẾN HÀNH ĐẶT HÀNG</a>
+          </div>
           
-          <button class="checkout-btn">TIẾN HÀNH ĐẶT HÀNG</button>
           
           <div class="continue-shopping">
             <a href="/index.html">← Tiếp tục mua hàng</a>
@@ -144,12 +142,13 @@
 
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = "<img src='https://tuongvip.vn/public/assets/frontend/img/cart_empty_icon.png' alt='Giỏ hàng trống' class='empty-cart'>";
+                document.querySelector(".grand-total").textContent = "0 ₫"; // Đặt tổng tiền về 0 nếu giỏ hàng trống
                 return;
             }
 
             // Hiển thị danh sách sản phẩm trong giỏ hàng
             cartItemsContainer.innerHTML = cart.map(item => `
-                <div class="cart-item" data-id="${item._id}">
+                <div class="cart-item" data-id="${item._id}" data-stock="${item.quantity}">
                     <div class="item-select">
                         <input type="checkbox" checked>
                     </div>
@@ -161,85 +160,138 @@
                         <div class="item-price">${item.price.toLocaleString()} ₫</div>
                         <div class="item-quantity">
                             <button class="decrease">-</button>
-                            <input type="number" value="${item.quantity}" min="1">
+                            <input type="number" value="${item.cartQuantity}" min="1">
                             <button class="increase">+</button>
                         </div>
                     </div>
                     <div class="item-total">
-                        <div class="total-price">${(item.price * item.quantity).toLocaleString()} ₫</div>
+                        <div class="total-price">${(item.price * item.cartQuantity).toLocaleString()} ₫</div>
                         <button class="remove-item">Xóa</button>
                     </div>
                 </div>
             `).join("");
 
-            // Sử dụng Event Delegation để xử lý sự kiện "Xóa"
-            cartItemsContainer.addEventListener("click", function (event) {
-                if (event.target.classList.contains("remove-item")) {
-                    const itemElement = event.target.closest(".cart-item");
-                    const itemId = itemElement.dataset.id;
+            // Tính tổng tiền ngay khi trang được load
+            calculateTotal();
 
-                    // Lấy lại cart từ localStorage và lọc bỏ item có id tương ứng
-                    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-                    cart = cart.filter(item => item._id !== itemId);
+            // Các sự kiện khác (tăng/giảm số lượng, thay đổi số lượng, xóa sản phẩm, ...)
+            cartItemsContainer.addEventListener("click", (e) => {
+                const target = e.target;
 
-                    // Cập nhật localStorage
-                    localStorage.setItem("cart", JSON.stringify(cart));
+                // Xử lý nút tăng/giảm số lượng
+                if (target.classList.contains("increase") || target.classList.contains("decrease")) {
+                    const cartItem = target.closest(".cart-item");
+                    const input = cartItem.querySelector("input[type='number']");
+                    const current = parseInt(input.value);
+                    const stock = parseInt(cartItem.dataset.stock);
 
-                    // Xóa khỏi DOM
-                    itemElement.remove();
+                    if (target.classList.contains("increase")) {
+                        if (current < stock) {
+                            input.value = current + 1;
+                            updateCartQuantity(cartItem.dataset.id, current + 1);
+                            updateItemTotal(cartItem); // Cập nhật giá tiền ngay lập tức
+                            calculateTotal(); // Cập nhật tổng tiền
+                        } else {
+                            alert("Vượt quá số lượng tồn kho!");
+                        }
+                    }
 
-                    // Nếu hết sản phẩm thì hiển thị thông báo
-                    if (cart.length === 0) {
-                        cartItemsContainer.innerHTML = "<p>Giỏ hàng trống.</p>";
+                    if (target.classList.contains("decrease")) {
+                        if (current > 1) {
+                            input.value = current - 1;
+                            updateCartQuantity(cartItem.dataset.id, current - 1);
+                            updateItemTotal(cartItem); // Cập nhật giá tiền ngay lập tức
+                            calculateTotal(); // Cập nhật tổng tiền
+                        }
                     }
                 }
+
+                // Xử lý nút xóa sản phẩm
+                if (target.classList.contains("remove-item")) {
+                    const cartItem = target.closest(".cart-item");
+                    const productId = cartItem.dataset.id;
+
+                    // Xóa sản phẩm khỏi localStorage
+                    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                    const updatedCart = cart.filter(item => item._id !== productId);
+                    localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+                    // Xóa sản phẩm khỏi giao diện
+                    cartItem.remove();
+
+                    // Cập nhật tổng tiền
+                    calculateTotal();
+                }
             });
-        });
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const cartItemsContainer = document.querySelector(".cart-items");
-                const grandTotalElement = document.querySelector(".grand-total");
-            
-                function parseCurrency(str) {
-                    return Number(str.replace(/\./g, "").replace("₫", "").trim());
+
+            cartItemsContainer.addEventListener("change", (e) => {
+                if (e.target.matches("input[type='number']")) {
+                    const input = e.target;
+                    const cartItem = input.closest(".cart-item");
+                    const stock = parseInt(cartItem.dataset.stock);
+
+                    let value = parseInt(input.value);
+
+                    if (value > stock) {
+                        alert("Số lượng vượt quá tồn kho!");
+                        value = stock;
+                    } else if (value < 1 || isNaN(value)) {
+                        value = 1;
+                    }
+
+                    input.value = value;
+                    updateCartQuantity(cartItem.dataset.id, value);
+                    updateItemTotal(cartItem); // Cập nhật giá tiền ngay lập tức
+                    calculateTotal(); // Cập nhật tổng tiền
                 }
-            
-                function formatCurrency(num) {
-                    return num.toLocaleString("vi-VN") + " ₫";
+            });
+
+            function updateCartQuantity(productId, newQuantity) {
+                const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                const item = cart.find(i => i._id === productId);
+                if (item) {
+                    item.cartQuantity = newQuantity;
+                    localStorage.setItem("cart", JSON.stringify(cart));
                 }
-            
-                function calculateTotal() {
-                    let total = 0;
-                    const items = cartItemsContainer.querySelectorAll(".cart-item");
-            
-                    items.forEach(item => {
-                        const isChecked = item.querySelector("input[type='checkbox']").checked;
-            
-                        if (isChecked) {
-                            const quantity = Number(item.querySelector("input[type='number']").value);
-                            const priceStr = item.querySelector(".item-price").textContent;
-                            const price = parseCurrency(priceStr);
-                            total += price * quantity;
-                        }
-                    });
-            
-                    document.querySelector(".summary-row.total .grand-total").textContent = formatCurrency(total);
-                    document.querySelector(".summary-row:nth-child(1) span:last-child").textContent = formatCurrency(total);
-                }
-            
-                // Sự kiện khi checkbox, số lượng thay đổi
-                cartItemsContainer.addEventListener("change", (e) => {
-                    if (e.target.matches("input[type='checkbox'], input[type='number']")) {
-                        calculateTotal();
+            }
+
+            function updateItemTotal(cartItem) {
+                const input = cartItem.querySelector("input[type='number']");
+                const quantity = parseInt(input.value);
+                const priceStr = cartItem.querySelector(".item-price").textContent;
+                const price = parseCurrency(priceStr);
+                const totalPriceElement = cartItem.querySelector(".total-price");
+
+                totalPriceElement.textContent = formatCurrency(price * quantity);
+            }
+
+            function calculateTotal() {
+                let total = 0;
+                const items = cartItemsContainer.querySelectorAll(".cart-item");
+
+                items.forEach(item => {
+                    const isChecked = item.querySelector("input[type='checkbox']").checked;
+
+                    if (isChecked) {
+                        const quantity = parseInt(item.querySelector("input[type='number']").value);
+                        const priceStr = item.querySelector(".item-price").textContent;
+                        const price = parseCurrency(priceStr);
+                        total += price * quantity;
                     }
                 });
+
+                document.querySelector(".grand-total").textContent = formatCurrency(total);
+            }
+
+            function parseCurrency(value) {
+                return parseInt(value.replace(/[^\d]/g, ""));
+            }
+
+            function formatCurrency(value) {
+                return value.toLocaleString("vi-VN") + " ₫";
+            }
             
-                // Gọi lần đầu khi trang load
-                calculateTotal();
-            });
-            </script>
-            
-        
+        });
+        </script>
 </body>
 </html>

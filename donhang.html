@@ -4,7 +4,7 @@
     <title>Sách Ơi - Home</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" type="text/css" href="asset/base.css"> -->
+    <link rel="stylesheet" type="text/css" href="asset/donhang.css">
     <link rel="stylesheet" type="text/css" href="asset/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Dancing Script:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="asset/img/themify-icons-font/themify-icons/themify-icons.css">
@@ -95,62 +95,10 @@
                 
         </header>
         <div class="content">
-            <div class="grid">
-                <div class="grid_row">
-                    <div class="grid_colum_2">
-                        <nav class="catelory">
-                            <ul class="catelory_list">
-                                <h3 class="catelory_heading">
-                                    <i class="ti-menu-alt"></i>
-                                    Danh Mục</h3>
-                                    <li class="catelory_item">
-                                        <a href="theloai.html?category=Truyện tranh" class="catelory_link">Truyện tranh</a>
-                                    </li>
-                                    <li class="catelory_item">
-                                        <a href="theloai.html?category=Tiểu thuyết" class="catelory_link">Tiểu thuyết</a>
-                                    </li>
-                                    <li class="catelory_item">
-                                        <a href="theloai.html?category=Văn học" class="catelory_link">Văn học</a>
-                                    </li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <div class="grid_colum_10">
-                        <div class="home_product">
-                            <h2 id="title" style="margin-left: 10px; font-size: 24px; font-weight: bold;"></h2>
-                            <div class="grid_row_2" id="product-list">
-
-                            </div> 
-                            </div>
-                        </div>
-                    </div>
-                    <ul class="pagination pagination_margin">
-                        <li class="pagination_item">
-                            <a href="" class="pagination_item_link">
-                                <i class="ti-angle-left"></i>
-                            </a>
-                        </li>
-                        <li class="pagination_item pagination_item_active">
-                            <a href="" class="pagination_item_link">1</a>
-                        </li>
-                        <li class="pagination_item ">
-                            <a href="" class="pagination_item_link">2</a>
-                        </li>
-                        <li class="pagination_item">
-                            <a href="" class="pagination_item_link">3</a>
-                        </li>
-                        <li class="pagination_item">
-                            <a href="" class="pagination_item_link">...</a>
-                        </li>
-                        <li class="pagination_item">
-                            <a href="" class="pagination_item_link">6</a>
-                        </li>
-                        <li class="pagination_item">
-                            <a href="" class="pagination_item_link">
-                                <i class="ti-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
+            <div class="order-list-container">
+                <h2 class="order-list-title">Danh Sách Đơn Hàng</h2>
+                <div class="order-list">
+                    
                 </div>
             </div>
         </div>
@@ -169,7 +117,8 @@
            </ul>
         </div>
     </div>
-
+  
+    
      <script>
         window.addEventListener("DOMContentLoaded", function () {
           document.getElementById("searchForm").addEventListener("submit", function(e) {
@@ -186,42 +135,76 @@
             window.location.href = `chitietsanpham.html?id=${id}`;
         }
         </script>
-         <script>
-            document.addEventListener("DOMContentLoaded", async () => {
-              const params = new URLSearchParams(window.location.search);
-              const category = params.get("category");
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+          const orderListContainer = document.querySelector(".order-list");
+          const token = localStorage.getItem("token"); // Giả sử bạn đã lưu JWT sau khi đăng nhập
         
-              document.getElementById("title").textContent = `Thể loại: ${category}`;
+          if (!token) {
+            orderListContainer.innerHTML = "<p>Vui lòng đăng nhập để xem đơn hàng.</p>";
+            return;
+          }
         
-              try {
-                const res = await fetch("http://localhost:5000/api/products/get-products");
-                const allProducts = await res.json();
-                const filtered = allProducts.filter(p => p.category === category);
-                renderProducts(filtered);
-              } catch (err) {
-                console.error("Lỗi khi lấy sản phẩm:", err);
+          try {
+            const response = await fetch("http://localhost:5000/api/orders/my-orders", {
+              headers: {
+                "Authorization": `Bearer ${token}`
               }
-            function renderProducts(products) {
-    const container = document.getElementById("product-list");
-    container.innerHTML = products.map(product => `
-        <div class="grid_colum_2_4">
-            <div class="home_product_item" onclick="goToProductDetail('${product._id}')">
-                <div class="home_product_item_img" style="background-image: url('${product.image}');"></div>
-                <h4 class="home_product_item_name">${product.name}</h4>
-                <p class="home_product_item_price">Giá: ${product.price.toLocaleString("vi-VN")} VNĐ</p>
-                <div class="home_product_item_action">
-                    <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${JSON.stringify(product)})">
-                        Thêm vào giỏ
-                    </button>
-                    <span class="like">
-                        <i class="saled">${product.sold} Đã bán</i>
-                    </span>
-                </div>
-            </div>
-        </div>
-    `).join("");
-}
             });
-          </script>
+        
+            if (!response.ok) throw new Error("Không thể lấy đơn hàng!");
+        
+            const orders = await response.json();
+            if (!orders.length) {
+              orderListContainer.innerHTML = "<p>Bạn chưa có đơn hàng nào.</p>";
+              return;
+            }
+        
+            // Xóa đơn hàng mẫu
+            orderListContainer.innerHTML = "";
+        
+            orders.forEach(order => {
+              const orderDate = new Date(order.createdAt).toLocaleDateString("vi-VN");
+        
+              const productsHTML = order.items.map(item => `
+                <li class="product-item">
+                  <img src="${item.product.image}" alt="${item.product.name}" class="product-image">
+                  <div class="product-info">
+                    <span class="product-name">${item.product.name}</span>
+                    <span class="product-quantity">Số lượng: ${item.quantity}</span>
+                    <span class="product-price">Giá: ${item.product.price.toLocaleString()} ₫</span>
+                  </div>
+                </li>
+              `).join("");
+        
+              const orderHTML = `
+                <div class="order-item">
+                  <div class="order-header">
+                    <div class="order-id">Mã đơn hàng: <span>#${order._id}</span></div>
+                    <div class="order-date">Ngày đặt: <span>${orderDate}</span></div>
+                    <div class="order-status">Trạng thái: <span class="status-pending">${order.trangThaiGiaoHang}</span></div>
+                    <div class="order-payment">Thanh toán: <span class="status-payment">${order.trangThaiThanhToan}</span></div>
+                  </div>
+                  <div class="order-products">
+                    <h4>Sản phẩm:</h4>
+                    <ul class="product-list">${productsHTML}</ul>
+                  </div>
+                  <div class="order-footer">
+                    <div class="order-total">Tổng tiền: <span>${order.totalAmount.toLocaleString()} ₫</span></div>
+                    <button class="order-details-btn">Xem chi tiết</button>
+                  </div>
+                </div>
+              `;
+        
+              orderListContainer.insertAdjacentHTML("beforeend", orderHTML);
+            });
+        
+          } catch (error) {
+            console.error("Lỗi khi tải đơn hàng:", error);
+            orderListContainer.innerHTML = "<p>Đã xảy ra lỗi khi tải đơn hàng.</p>";
+          }
+        });
+        </script>
+        
 </body>
 </html>
