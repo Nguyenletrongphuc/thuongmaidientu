@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Dancing Script:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="asset/img/themify-icons-font/themify-icons/themify-icons.css">
     <script src="asset/dongbodangnhap.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container">
@@ -233,9 +234,17 @@
                 }
 
                 const result = await response.json();
-                alert(result.message);
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Bạn đã đặt hàng thành công!',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    didClose: () => {
+                        window.location.href = "index.html";
+                    }
+                });
                 localStorage.removeItem("cart"); // Xóa giỏ hàng sau khi đặt hàng thành công
-                window.location.href = "index.html"; // Chuyển hướng về trang chủ
             } catch (error) {
                 console.error("Lỗi khi tạo đơn hàng:", error);
                 alert("Có lỗi xảy ra khi tạo đơn hàng!");

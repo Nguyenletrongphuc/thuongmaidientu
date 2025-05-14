@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Đơn Hàng</title>
+    <link rel="stylesheet" href="asset/admin-order.css">
+</head>
+<body>
+    <div class="admin-order-container">
+        <h1>Quản Lý Đơn Hàng</h1>
+        <div class="admin-buttons">
+            <a href="index.html" class="btn btn-home">Về Trang Chủ</a>
+            <a href="admin2084.html" class="btn btn-manage-products">Quản Lý Sản Phẩm</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã Đơn Hàng</th>
+                    <th>Ngày Đặt</th>
+                    <th>Trạng Thái Giao</th>
+                    <th>Trạng Thái Thanh Toán</th>
+                    <th>Tổng Tiền</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody id="order-table-body">
+                <!-- Các đơn hàng sẽ được thêm vào đây bằng JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <!-- Modal xem/sửa đơn hàng -->
+    <div id="order-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2>Chi tiết đơn hàng</h2>
+        <div id="order-details">
+        <!-- Chi tiết đơn hàng sẽ được thêm vào đây bằng JavaScript -->
+        </div>
+        <button onclick="saveOrderChanges()" class="btn btn-save">Lưu</button>
+    </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const tableBody = document.getElementById("order-table-body");
+
+            try {
+                const token = localStorage.getItem("token");
+                const response = await fetch("http://localhost:5000/api/orders/all", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error("Không thể lấy danh sách đơn hàng!");
+                }
+
+                const orders = await response.json();
+
+                if (orders.length === 0) {
+                    tableBody.innerHTML = "<tr><td colspan='6'>Không có đơn hàng nào.</td></tr>";
+                    return;
+                }
+
+                const rows = orders.map(order => `
+                    <tr>
+                        <td>#${order._id}</td>
+                        <td>${new Date(order.createdAt).toLocaleDateString("vi-VN")}</td>
+                        <td><span class="${getStatusClass(order.trangThaiGiaoHang)}">${order.trangThaiGiaoHang || 'Chờ xử lý'}</span></td>
+                        <td><span class="${order.trangThaiThanhToan === 'Đã thanh toán' ? 'status-paid' : 'status-unpaid'}">
+                            ${order.trangThaiThanhToan || 'Chưa thanh toán'}
+                        </span></td>
+                        <td>${(order.totalAmount || 0).toLocaleString()} ₫</td>
+                        <td>
+                            <button class="btn btn-view" onclick="viewOrder('${order._id}')">Xem/sửa</button>
+                            <button class="btn btn-delete" onclick="deleteOrder('${order._id}')">Xóa</button>
+                        </td>
+                    </tr>
+                `).join("");
+
+                tableBody.innerHTML = rows;
+
+            } catch (err) {
+                console.error("Lỗi:", err);
+                tableBody.innerHTML = "<tr><td colspan='6'>Lỗi khi tải dữ liệu đơn hàng.</td></tr>";
+            }
+        });
+
+        function getStatusClass(status) {
+            switch (status) {
+                case "Chờ xử lý": return "status-pending";
+                case "Đã giao": return "status-delivered";
+                case "Đã hủy": return "status-cancelled";
+                default: return "";
+            }
+        }
+
+        function viewOrder(orderId) {
+            alert("Xem đơn hàng: " + orderId);
+        }
+
+        function deleteOrder(orderId) {
+            if (confirm("Bạn có chắc chắn muốn xóa đơn hàng này không?")) {
+                alert("Xóa đơn hàng: " + orderId);
+            }
+        }
+        async function viewOrder(orderId) {
+    const token = localStorage.getItem("token");
+    try {
+        const res = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        if (!res.ok) throw new Error("Không lấy được đơn hàng");
+        const order = await res.json();
+
+        // Tạo HTML hiển thị danh sách sản phẩm
+        let itemsHtml = "<h3>Sản phẩm trong đơn:</h3><ul>";
+        for (const item of order.items) {
+            itemsHtml += `<li>${item.product?.name || 'Không rõ'} - SL: ${item.quantity}</li>`;
+        }
+        itemsHtml += "</ul>";
+
+        // Hiển thị modal
+        document.getElementById("order-modal").classList.remove("hidden");
+
+        // Tạo nội dung modal
+        const details = `
+            <p><strong>Mã đơn:</strong> ${order._id}</p>
+            <p><strong>Ngày đặt:</strong> ${new Date(order.createdAt).toLocaleDateString("vi-VN")}</p>
+            <p><strong>Khách hàng:</strong> ${order.user?.name || "Không rõ"}</p>
+            <p><strong>Địa chỉ:</strong> ${order.address}</p>
+            <p><strong>Số điện thoại:</strong> ${order.phone}</p>
+
+            ${itemsHtml}
+
+            <p><strong>Thanh toán:</strong>
+                <select id="edit-payment">
+                    <option value="Đã thanh toán" ${order.trangThaiThanhToan === "Đã thanh toán" ? "selected" : ""}>Đã thanh toán</option>
+                    <option value="Chưa thanh toán" ${order.trangThaiThanhToan !== "Đã thanh toán" ? "selected" : ""}>Chưa thanh toán</option>
+                </select>
+            </p>
+            <p><strong>Trạng thái giao hàng:</strong>
+                <select id="edit-status">
+                    <option value="Chờ xử lý" ${order.trangThaiGiaoHang === "Chờ xử lý" ? "selected" : ""}>Chờ xử lý</option>
+                    <option value="Đang giao" ${order.trangThaiGiaoHang === "Đang giao" ? "selected" : ""}>Đang giao</option>
+                    <option value="Đã giao" ${order.trangThaiGiaoHang === "Đã giao" ? "selected" : ""}>Đã giao</option>
+                    <option value="Đã hủy" ${order.trangThaiGiaoHang === "Đã hủy" ? "selected" : ""}>Đã hủy</option>
+                </select>
+            </p>
+            <input type="hidden" id="edit-order-id" value="${order._id}">
+        `;
+
+        document.getElementById("order-details").innerHTML = details;
+    } catch (err) {
+        alert("Lỗi khi tải chi tiết đơn hàng");
+        console.error(err);
+    }
+}
+
+        function closeModal() {
+            const modal = document.getElementById("order-modal");
+            modal.classList.add("hidden"); // Thêm class "hidden" để ẩn modal
+        }
+    </script>
+    <script>
+    async function saveOrderChanges() {
+    const token = localStorage.getItem("token");
+    const orderId = document.getElementById("edit-order-id").value;
+    const trangThaiGiaoHang = document.getElementById("edit-status").value;
+    const trangThaiThanhToan = document.getElementById("edit-payment").value;
+
+    try {
+        const res = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ trangThaiGiaoHang, trangThaiThanhToan })
+        });
+
+        if (!res.ok) throw new Error("Cập nhật thất bại");
+
+        alert("Cập nhật đơn hàng thành công!");
+        closeModal();
+        location.reload(); // hoặc gọi lại hàm load dữ liệu
+    } catch (err) {
+        console.error(err);
+        alert("Lỗi khi lưu đơn hàng");
+    }
+}
+    </script>
+    <script>async function deleteOrder(orderId) {
+    if (!confirm("Bạn có chắc chắn muốn xóa đơn hàng này không?")) return;
+    const token = localStorage.getItem("token");
+    try {
+        const res = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        if (!res.ok) throw new Error("Xóa đơn hàng thất bại");
+        alert("Xóa đơn hàng thành công!");
+        location.reload(); // hoặc gọi lại hàm load dữ liệu
+    } catch (err) {
+        console.error(err);
+        alert("Lỗi khi xóa đơn hàng");
+    }
+}</script>
+</body>
+</html>

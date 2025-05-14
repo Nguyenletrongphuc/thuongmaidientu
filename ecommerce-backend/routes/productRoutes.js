@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Product = require("../models/Product");
+const Order = require("../models/Order");
 
 // API thêm sản phẩm
 router.post("/add-product", async (req, res) => {
@@ -69,6 +70,20 @@ router.get("/get-product/:id", async (req, res) => {
 router.delete("/delete-product/:id", async (req, res) => {
     try {
         const productId = req.params.id;
+
+        // Kiểm tra xem sản phẩm có nằm trong đơn hàng chưa hoàn tất không
+        const relatedOrders = await Order.find({
+            "items.product": productId,
+            trangThaiGiaoHang: { $nin: ["Đã giao", "Đã hủy"] }
+        });
+
+        if (relatedOrders.length > 0) {
+            return res.status(400).json({
+                message: "Không thể xóa sản phẩm vì đang có đơn hàng chưa giao xong chứa sản phẩm này."
+            });
+        }
+
+        // Nếu không có đơn hàng liên quan chưa hoàn tất, cho phép xóa
         const deletedProduct = await Product.findByIdAndDelete(productId);
 
         if (!deletedProduct) {

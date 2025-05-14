@@ -62,7 +62,11 @@ function addToCart(product) {
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert("Đã thêm vào giỏ hàng!");
+    Swal.fire({
+    icon: 'success',
+    title: 'Thành công',
+    text: 'Giỏ hàng của bạn + 1!',
+});
 }
 document.addEventListener("DOMContentLoaded", function () {
     const role = localStorage.getItem("role"); // Lấy role từ localStorage

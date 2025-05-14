@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
     <link rel="stylesheet" href="/asset/base.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="header">
         <h1>Quản Lý Sách</h1>
-        <a href="index.html">Trở về trang chủ</a>
-        <a href="index.html">Đến quản lý đơn hàng</a>
+    </div>
+    <div class="admin-buttons">
+        <a href="index.html" class="btn btn-home">Về Trang Chủ</a>
+        <a href="admin-order.html" class="btn btn-manage-orders">Quản Lý Đơn Hàng</a>
     </div>
     <div class="header__nav-item">
         <div id="add-product">
@@ -116,8 +119,16 @@ document.getElementById("add-product-form").addEventListener("submit", async fun
         });
 
         const result = await response.json();
-        alert(result.message);
-        location.reload(); // Reload để cập nhật danh sách sản phẩm
+        Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Đã thêm sản phẩm thành công',
+        showConfirmButton: false,
+        timer: 1500,
+        didClose: () => {
+            location.reload();
+    }
+});
     } catch (error) {
         alert("Lỗi khi thêm sản phẩm");
         console.error(error);
