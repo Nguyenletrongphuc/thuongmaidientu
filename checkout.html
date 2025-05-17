@@ -182,8 +182,8 @@
         </script>
     <script>
         document.getElementById("place-order-btn").addEventListener("click", async function () {
-            const userName = localStorage.getItem("userName"); // Lấy userName từ localStorage
-            const token = localStorage.getItem("token"); // Lấy token từ localStorage
+            const userName = localStorage.getItem("username");
+            const token = localStorage.getItem("token");
 
             if (!userName || !token) {
                 alert("Bạn cần đăng nhập để đặt hàng!");
@@ -194,7 +194,7 @@
             const userPhone = document.getElementById("user-phone").value.trim();
             const paymentMethod = document.querySelector('input[name="payment-method"]:checked')?.value;
 
-            if (!userAddress || !userPhone) {
+            if (!userAddress || !userPhone || !paymentMethod) {
                 alert("Vui lòng điền đầy đủ thông tin!");
                 return;
             }
@@ -207,7 +207,7 @@
 
             const totalAmount = cart.reduce((total, item) => total + item.price * item.cartQuantity, 0);
 
-            const orderData = { 
+            const orderData = {
                 items: cart.map(item => ({
                     product: item._id,
                     quantity: item.cartQuantity,
@@ -220,20 +220,42 @@
             };
 
             try {
-                const response = await fetch("http://localhost:5000/api/orders/create", {
+                if (paymentMethod === "momo") {
+                    const momoRes = await fetch("http://localhost:5000/api/orders/pay/momo", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify(orderData),
+                    });
+
+                    const momoData = await momoRes.json();
+
+                    if (momoRes.ok && momoData.payUrl) {
+                        localStorage.setItem("pendingOrder", JSON.stringify(orderData));
+                        localStorage.removeItem("cart");
+                        window.location.href = momoData.payUrl;
+                        return;
+                    } else {
+                        alert("Không thể tạo thanh toán MoMo!");
+                        return;
+                    }
+                }
+
+                // Xử lý COD
+                const res = await fetch("http://localhost:5000/api/orders/create", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`, // Gửi token trong header
+                        Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify(orderData),
                 });
 
-                if (!response.ok) {
-                    throw new Error("Không thể tạo đơn hàng!");
-                }
+                if (!res.ok) throw new Error("Không thể tạo đơn hàng!");
 
-                const result = await response.json();
+                const result = await res.json();
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
@@ -244,10 +266,10 @@
                         window.location.href = "index.html";
                     }
                 });
-                localStorage.removeItem("cart"); // Xóa giỏ hàng sau khi đặt hàng thành công
+                localStorage.removeItem("cart");
             } catch (error) {
-                console.error("Lỗi khi tạo đơn hàng:", error);
-                alert("Có lỗi xảy ra khi tạo đơn hàng!");
+                console.error("Lỗi khi đặt hàng:", error);
+                alert("Đã xảy ra lỗi khi xử lý đơn hàng!");
             }
         });
     </script>
