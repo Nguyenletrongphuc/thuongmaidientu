@@ -378,6 +378,54 @@ text-align: center;
     border-color: transparent transparent white transparent;
 }
 /* ket thuc headr */
+/*phần slider*/
+.slider-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    margin: 24px 0;
+}
+.slider-side {
+    width: 22%;
+    min-width: 180px;
+    text-align: center;
+}
+.slider-side img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.slider-center {
+    width: 56%;
+    min-width: 320px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.slider-center-inner {
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+}
+.slider-center-inner img {
+    border-radius: 8px;
+}
+@media (max-width: 900px) {
+    .slider-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .slider-side, .slider-center {
+        width: 100%;
+        min-width: unset;
+    }
+    .slider-side img, .slider-center-inner img {
+        height: auto;
+    }
+}
 /* phan body */
 .grid_row{
     display: flex;

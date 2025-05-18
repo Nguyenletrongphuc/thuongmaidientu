@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="asset/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Dancing Script:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="asset/img/themify-icons-font/themify-icons/themify-icons.css">
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css"> -->
     <script src="/asset/dongbodangnhap.js"></script>
 </head>
 <body>
@@ -94,6 +95,24 @@
                 </div>
                 
         </header>
+        
+        <div class="slider">
+    <div class="slider-row">
+        <div class="slider-side">
+            <img src="https://scontent.fsgn5-12.fna.fbcdn.net/v/t39.30808-6/496846002_1097513882407580_2221096940582546394_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=kZsmZr3y35UQ7kNvwHNneQG&_nc_oc=AdnZIZM5mHYQafYhqEltB2HZdTAYYM0ohyOetSvLLu5nl7i2bUvUWIf1gY1djS39qtc&_nc_zt=23&_nc_ht=scontent.fsgn5-12.fna&_nc_gid=SgthB4zeW15HmkaZCxfXLg&oh=00_AfIC3LvmOE7Z9iLAo40SEZHik1R-o2pQMzYZpwWulSyiVg&oe=682F7AF6" alt="Banner trái" />
+        </div>
+        <div class="slider-center">
+            <div class="slider-center-inner">
+                <img class="mySlides" src="https://cdn1.fahasa.com/media/magentothem/banner7/muasamkhongtienmat_840x320T525.png" style="width:100%">
+                <img class="mySlides" src="https://cdn1.fahasa.com/media/magentothem/banner7/ToBinhYenVeHanhPhuc_840x320.png" style="width:100%">
+                <img class="mySlides" src="https://cdn1.fahasa.com/media/magentothem/banner7/CTT5_2505_840x320.png" style="width:100%">
+            </div>
+        </div>
+        <div class="slider-side">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiKbDALK-fccm9-r9xyILjbIJ6W6xlf9t7JQ&s" alt="Banner phải" />
+        </div>
+    </div>
+</div>
         <div class="content">
             <div class="grid">
                 <div class="grid_row">
@@ -221,5 +240,22 @@
             window.location.href = `chitietsanpham.html?id=${id}`;
         }
         </script>
+        <script>
+var myIndex = 0;
+carousel();
+
+function carousel() {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  myIndex++;
+  if (myIndex > x.length) {myIndex = 1}    
+  x[myIndex-1].style.display = "block";  
+  setTimeout(carousel, 2000); // Change image every 2 seconds
+}
+</script>
+        
 </body>
 </html>
