@@ -192,70 +192,126 @@
            </ul>
         </div>
     </div>
-    <script>document.addEventListener("DOMContentLoaded", async function () {
+    <script>
+    // Xử lý tìm kiếm
+    window.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("searchForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const query = document.getElementById("searchInput").value.trim();
+        if (query) {
+          window.location.href = `timkiem.html?query=${encodeURIComponent(query)}`;
+        }
+      });
+    });
+
+    // Chuyển trang chi tiết sản phẩm
+    function goToProductDetail(id) {
+        window.location.href = `chitietsanpham.html?id=${id}`;
+    }
+
+    // Slider banner
+    var myIndex = 0;
+    carousel();
+    function carousel() {
+      var i;
+      var x = document.getElementsByClassName("mySlides");
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";  
+      }
+      myIndex++;
+      if (myIndex > x.length) {myIndex = 1}    
+      x[myIndex-1].style.display = "block";  
+      setTimeout(carousel, 2000); // Change image every 2 seconds
+    }
+
+    // Phân trang và hiển thị sản phẩm
+    let currentPage = 1;
+    let totalPages = 1;
+
+    async function fetchAndRenderProducts(page = 1) {
         try {
-            const response = await fetch("http://localhost:5000/api/products/get-products");
-            const products = await response.json();
-    
+            const response = await fetch(`http://localhost:5000/api/products/get-products?page=${page}&limit=15`);
+            const data = await response.json();
+            const products = data.products;
+            totalPages = data.totalPages;
+            currentPage = data.page;
+
+            // Render sản phẩm
             const productContainer = document.querySelector(".grid_row_2");
             productContainer.innerHTML = "";
             products.forEach(product => {
-    const productHTML = `
-        <div class="grid_colum_2_4">
-            <div class="home_product_item" onclick="goToProductDetail('${product._id}')">
-                <div class="home_product_item_img" style="background-image: url(${product.image});"></div>
-                <h4 class="home_product_item_name">${product.name}</h4>
-                <p class="home_product_item_price">Giá: ${product.price.toLocaleString("vi-VN")} vnđ</p>
-                <div class="home_product_item_action">
-                    <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${JSON.stringify(product)})">
-                        Thêm vào giỏ
-                    </button>
-                    <span class="like">
-                        <i class="saled">Số lượng ${product.quantity}</i>
-                    </span>
-                </div>
-            </div>
-        </div>
-    `;
-    productContainer.innerHTML += productHTML;
-});  
+                const productHTML = `
+                    <div class="grid_colum_2_4">
+                        <div class="home_product_item" onclick="goToProductDetail('${product._id}')">
+                            <div class="home_product_item_img" style="background-image: url(${product.image});"></div>
+                            <h4 class="home_product_item_name">${product.name}</h4>
+                            <p class="home_product_item_price">Giá: ${product.price.toLocaleString("vi-VN")} vnđ</p>
+                            <div class="home_product_item_action">
+                                <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${JSON.stringify(product)})">
+                                    Thêm vào giỏ
+                                </button>
+                                <span class="like">
+                                    <i class="saled">Số lượng ${product.quantity}</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productContainer.innerHTML += productHTML;
+            });
+
+            // Render phân trang
+            renderPagination();
         } catch (error) {
             console.error("Lỗi khi lấy sản phẩm:", error);
         }
-    });</script>
-    
-     <script>
-        window.addEventListener("DOMContentLoaded", function () {
-          document.getElementById("searchForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const query = document.getElementById("searchInput").value.trim();
-            if (query) {
-              window.location.href = `timkiem.html?query=${encodeURIComponent(query)}`;
-            }
-          });
-        });
-        </script>
-    <script>
-        function goToProductDetail(id) {
-            window.location.href = `chitietsanpham.html?id=${id}`;
-        }
-        </script>
-        <script>
-var myIndex = 0;
-carousel();
+    }
 
-function carousel() {
-  var i;
-  var x = document.getElementsByClassName("mySlides");
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";  
-  }
-  myIndex++;
-  if (myIndex > x.length) {myIndex = 1}    
-  x[myIndex-1].style.display = "block";  
-  setTimeout(carousel, 2000); // Change image every 2 seconds
-}
-</script>
-        
+    function renderPagination() {
+        const pagination = document.querySelector(".pagination");
+        if (!pagination) return;
+        let html = '';
+
+        // Nút prev
+        html += `<li class="pagination_item${currentPage === 1 ? ' pagination_item_disabled' : ''}">
+            <a href="#" class="pagination_item_link" data-page="${currentPage - 1}"><i class="ti-angle-left"></i></a>
+        </li>`;
+
+        // Số trang
+        for (let i = 1; i <= totalPages; i++) {
+            html += `<li class="pagination_item${i === currentPage ? ' pagination_item_active' : ''}">
+                <a href="#" class="pagination_item_link" data-page="${i}">${i}</a>
+            </li>`;
+        }
+
+        // Nút next
+        html += `<li class="pagination_item${currentPage === totalPages ? ' pagination_item_disabled' : ''}">
+            <a href="#" class="pagination_item_link" data-page="${currentPage + 1}"><i class="ti-angle-right"></i></a>
+        </li>`;
+
+        pagination.innerHTML = html;
+
+        // Gán sự kiện click
+        document.querySelectorAll('.pagination_item_link').forEach(link => {
+            link.onclick = function(e) {
+                e.preventDefault();
+                const page = parseInt(this.getAttribute('data-page'));
+                if (page >= 1 && page <= totalPages && page !== currentPage) {
+                    fetchAndRenderProducts(page);
+                }
+            }
+        });
+    }
+
+    // Khởi động lần đầu
+    document.addEventListener("DOMContentLoaded", function () {
+        fetchAndRenderProducts(1);
+    });
+
+    // Dummy addToCart function (nếu chưa có)
+    function addToCart(product) {
+        alert("Đã thêm sản phẩm vào giỏ: " + product.name);
+    }
+    </script>
 </body>
 </html>
