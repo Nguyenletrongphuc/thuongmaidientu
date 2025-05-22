@@ -51,10 +51,15 @@ router.get("/get-products", async (req, res) => {
         const page = Math.max(parseInt(req.query.page) || 1, 1);
         const limit = Math.max(parseInt(req.query.limit) || 15, 1);
         const skip = (page - 1) * limit;
+        const filter = {};
+
+        if (req.query.category) {
+            filter.category = req.query.category;
+        }
 
         const [total, products] = await Promise.all([
-            Product.countDocuments(),
-            Product.find().skip(skip).limit(limit)
+            Product.countDocuments(filter),
+            Product.find(filter).skip(skip).limit(limit)
         ]);
 
         res.status(200).json({
@@ -64,7 +69,6 @@ router.get("/get-products", async (req, res) => {
             totalPages: Math.ceil(total / limit)
         });
     } catch (error) {
-        console.error("Lỗi khi phân trang sản phẩm:", error);
         res.status(500).json({ message: "Lỗi khi lấy sản phẩm", error });
     }
 });
