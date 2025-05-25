@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     const username = localStorage.getItem("username"); // Lấy tên người dùng từ localStorage
     const navList = document.querySelector(".header__nav-list:last-child"); // Lấy danh sách menu
@@ -8,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
         navList.innerHTML = `
             <li class="header__nav-item header__nav-user">
                 <img src="/asset/img/user-img-default.webp" alt="" class="header__nav-item__user-img">
-                <span class="header__nav-item__user-name">${username}</span>
+                <span class="header__nav-item__user-name rainbow-username">${username}</span>
                 <ul class="header__nav-user-menu">
                     <li class="header__nav-user__item">
                         <a href="profile.html">Tài khoản</a>
@@ -78,3 +77,25 @@ document.addEventListener("DOMContentLoaded", function () {
         adminLink.style.display = "none"; // Ẩn thẻ <a> nếu role không phải là admin
     }
 });
+// Thêm CSS rainbow vào trang bằng JavaScript
+const style = document.createElement('style');
+style.innerHTML = `
+.rainbow-username {
+    font-weight: bold;
+    font-size: 1.1em;
+    background: linear-gradient(90deg, 
+        #ff0000, #ff9900, #ffee00, #33ff00, #00ffee, #0066ff, #cc00ff, #ff0000);
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-move 3s linear infinite;
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+@keyframes rainbow-move {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+`;
+document.head.appendChild(style);
