@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Order = require("../models/Order");
+const Product = require("../models/Product");
 const { authenticateToken } = require("./auth");
 const crypto = require("crypto");
 const https = require("https");
@@ -24,6 +25,16 @@ router.post("/create", authenticateToken, async (req, res) => {
     });
 
     await newOrder.save();
+
+    // Cập nhật tồn kho cho từng sản phẩm
+    for (const item of items) {
+      await Product.findByIdAndUpdate(
+        item.product,
+        { $inc: { quantity: -item.quantity, sold: item.quantity } },
+        { new: true }
+      );
+    }
+
     res.status(201).json({ message: "Tạo đơn hàng thành công", order: newOrder });
   } catch (err) {
     console.error("Lỗi tạo đơn hàng:", err);

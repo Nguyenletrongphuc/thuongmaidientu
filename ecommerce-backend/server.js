@@ -43,12 +43,14 @@ const productRoutes = require("./routes/productRoutes");
 const { router: authRoutes } = require("./routes/auth");
 const userRoutes = require("./routes/userRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const authResetRoutes = require("./routes/auth-reset");
 
 
 app.use("/api/orders", orderRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/auth-reset", authResetRoutes);
 app.use(express.static(path.join(__dirname, "..")));
 app.use(express.static(path.join(__dirname, "public")));
 

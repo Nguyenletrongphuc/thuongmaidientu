@@ -57,9 +57,10 @@ router.get("/get-products", async (req, res) => {
             filter.category = req.query.category;
         }
 
+        const sort = req.query.sort || '-createdAt'; // thêm dòng này để đọc query sort
         const [total, products] = await Promise.all([
             Product.countDocuments(filter),
-            Product.find(filter).skip(skip).limit(limit)
+            Product.find(filter).sort(sort).skip(skip).limit(limit)
         ]);
 
         res.status(200).json({
@@ -70,6 +71,15 @@ router.get("/get-products", async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({ message: "Lỗi khi lấy sản phẩm", error });
+    }
+});
+// API lấy tất cả sản phẩm (không phân trang) cho admin
+router.get("/get-all-products", async (req, res) => {
+    try {
+        const products = await Product.find({});
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ message: "Lỗi khi lấy tất cả sản phẩm", error });
     }
 });
 // API lấy chi tiết 1 sản phẩm theo id

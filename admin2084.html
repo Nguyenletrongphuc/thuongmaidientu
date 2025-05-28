@@ -80,10 +80,10 @@
         </div>
     </div>
     <div id="product-list" class="product-list">
-        <!-- Mỗi sản phẩm sẽ được hiển thị trong một thẻ -->
-        <div class="product-item">
-        </div>
+        
     </div>
+    <!-- Thêm sau product-list -->
+    <ul class="pagination pagination_margin" id="admin-pagination"></ul>
     
     <script>
     document.getElementById("add-product-image-url").addEventListener("input", function () {
@@ -135,13 +135,19 @@ document.getElementById("add-product-form").addEventListener("submit", async fun
     }
 });
 
-document.addEventListener("DOMContentLoaded", async function () {
-    const productList = document.getElementById("product-list");
+let adminCurrentPage = 1;
+let adminTotalPages = 1;
 
+async function fetchAndRenderAdminProducts(page = 1) {
     try {
-        const response = await fetch("http://localhost:5000/api/products/get-products");
-        const products = await response.json();
+        const response = await fetch(`http://localhost:5000/api/products/get-products?page=${page}&limit=15`);
+        const data = await response.json();
+        const products = data.products;
+        adminTotalPages = data.totalPages;
+        adminCurrentPage = data.page;
 
+        // Render sản phẩm
+        const productList = document.getElementById("product-list");
         productList.innerHTML = products.map(product => `
             <div class="product-item" data-id="${product._id}">
                 <img src="${product.image}" alt="${product.name}" class="product-item__image">
@@ -159,9 +165,52 @@ document.addEventListener("DOMContentLoaded", async function () {
                 </div>
             </div>
         `).join("");
+
+        renderAdminPagination();
     } catch (error) {
         console.error("Lỗi khi lấy danh sách sản phẩm:", error);
     }
+}
+
+function renderAdminPagination() {
+    const pagination = document.getElementById("admin-pagination");
+    if (!pagination) return;
+    let html = '';
+
+    // Nút prev
+    html += `<li class="pagination_item${adminCurrentPage === 1 ? ' pagination_item_disabled' : ''}">
+        <a href="#" class="pagination_item_link" data-page="${adminCurrentPage - 1}"><i class="ti-angle-left"></i></a>
+    </li>`;
+
+    // Số trang
+    for (let i = 1; i <= adminTotalPages; i++) {
+        html += `<li class="pagination_item${i === adminCurrentPage ? ' pagination_item_active' : ''}">
+            <a href="#" class="pagination_item_link" data-page="${i}">${i}</a>
+        </li>`;
+    }
+
+    // Nút next
+    html += `<li class="pagination_item${adminCurrentPage === adminTotalPages ? ' pagination_item_disabled' : ''}">
+        <a href="#" class="pagination_item_link" data-page="${adminCurrentPage + 1}"><i class="ti-angle-right"></i></a>
+    </li>`;
+
+    pagination.innerHTML = html;
+
+    // Gán sự kiện click
+    pagination.querySelectorAll('.pagination_item_link').forEach(link => {
+        link.onclick = function(e) {
+            e.preventDefault();
+            const page = parseInt(this.getAttribute('data-page'));
+            if (page >= 1 && page <= adminTotalPages && page !== adminCurrentPage) {
+                fetchAndRenderAdminProducts(page);
+            }
+        }
+    });
+}
+
+// Gọi lần đầu khi load trang
+document.addEventListener("DOMContentLoaded", function () {
+    fetchAndRenderAdminProducts(1);
 });
 
 // Hàm xử lý sửa sản phẩm

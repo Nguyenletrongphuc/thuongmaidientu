@@ -38,10 +38,10 @@
                                 <ul class="hearder_thongbao_list">
                                     <li class="hearder_thongbao_list_item">
                                         <a href="" class="hearder_thongbao_link">
-                                            <img src="https://ischool.vn/wp-content/uploads/2022/12/nhung-cuon-sach-hay-cho-tre-10-tuoi-3.jpg" alt="">
+                                            
                                         <div class="hearder_thongbao_info">
-                                            <p class="hearder_thongbao_name">Sách trẻ em</p>
-                                            <p class="hearder_thongbao_mota">Phù hợp cho tuổi 5-10</p>
+                                            <!-- Thông báo sản phẩm mới nhất -->
+                                            <div id="latest-product-notification" class="latest-product-notification"></div>
                                         </div>
                                         </a>
                                     </li>
@@ -336,6 +336,32 @@
     function addToCart(product) {
         alert("Đã thêm sản phẩm vào giỏ: " + product.name);
     }
+
+    // Hàm render sản phẩm mới nhất
+function renderLatestProductNotification(product) {
+    const noti = document.getElementById("latest-product-notification");
+    if (!noti) return;
+    noti.innerHTML = `
+        <strong>🎉 Sản phẩm mới vừa lên kệ:</strong>
+        <img src="${product.image}" alt="${product.name}" />
+        <span><b>${product.name}</b> (${product.category}) - Giá: ${product.price.toLocaleString()} VNĐ</span>
+    `;
+}
+
+// Lấy sản phẩm mới nhất (giả sử API hỗ trợ sort theo createdAt giảm dần)
+async function fetchAndShowLatestProduct() {
+    try {
+        const res = await fetch('http://localhost:5000/api/products/get-products?page=1&limit=1&sort=-createdAt');
+        const data = await res.json();
+        if (data.products && data.products.length > 0) {
+            renderLatestProductNotification(data.products[0]);
+        }
+    } catch (e) {
+        // Xử lý lỗi nếu cần
+    }
+}
+
+document.addEventListener("DOMContentLoaded", fetchAndShowLatestProduct);
     </script>
 </body>
 </html>
