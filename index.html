@@ -342,9 +342,11 @@ function renderLatestProductNotification(product) {
     const noti = document.getElementById("latest-product-notification");
     if (!noti) return;
     noti.innerHTML = `
-        <strong>🎉 Sản phẩm mới vừa lên kệ:</strong>
-        <img src="${product.image}" alt="${product.name}" />
-        <span><b>${product.name}</b> (${product.category}) - Giá: ${product.price.toLocaleString()} VNĐ</span>
+        <a href="chitietsanpham.html?id=${product._id}" style="display:flex;align-items:center;text-decoration:none;color:inherit;">
+            <strong>🎉 Sản phẩm mới vừa lên kệ:</strong>
+            <img src="${product.image}" alt="${product.name}" style="width:40px;height:40px;object-fit:cover;margin:0 8px;" />
+            <span><b>${product.name}</b> (${product.category}) - Giá: ${product.price.toLocaleString()} VNĐ</span>
+        </a>
     `;
 }
 
